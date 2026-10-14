@@ -54,6 +54,7 @@ img{display:block;width:100%;height:100%;object-fit:cover;max-width:100%}
 .tabs a{display:flex;align-items:center;justify-content:center;min-height:44px;font-size:12px;font-weight:700;text-decoration:none;border-right:1px solid var(--rule)}
 .tabs a:last-child{border-right:0}
 .tabs a:hover{background:var(--ink);color:var(--paper)}
+.tabs a.on{background:var(--ink);color:var(--paper)}
 
 section{padding-block:28px}
 .sec-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:16px;gap:12px}
@@ -617,6 +618,24 @@ footer{padding-block:28px 40px;font-size:11px;color:var(--muted);border-top:2px 
 })();
 /* /weather */
 </script>
+<script>
+/* current section in the top menu */
+(function(){
+  var nav=document.querySelector('.tabs');if(!nav)return;
+  var links=[].slice.call(nav.querySelectorAll('a[href^="#"]'));
+  var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))});
+  var tick=false;
+  function upd(){tick=false;
+    var y=Math.max(nav.getBoundingClientRect().bottom+90,window.innerHeight*0.3),cur=-1;
+    secs.forEach(function(s,i){if(s&&s.getBoundingClientRect().top<=y)cur=i});
+    if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4)cur=secs.length-1;
+    links.forEach(function(a,i){var on=i===cur;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
+  }
+  window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
+  window.addEventListener('resize',upd);upd();
+})();
+</script>
+
 
 </body>
 </html>
