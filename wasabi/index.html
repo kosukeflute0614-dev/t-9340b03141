@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>神辺わさび 冬春作計画書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+/* Layout: C案「大きく、はっきり」。スマホ1カラム、大きな文字、ボタン型の目次。最大幅640px */
+:root{
+  --bg:#ffffff; --card:#ffffff; --fg:#111a15; --muted:#4a5751; --line:#cfd8d2;
+  --hero:#1f6b3a; --on-hero:#ffffff;
+  --green:#1f6b3a; --green-soft:#e2efe5; --water:#2a6c90; --water-soft:#ddecf4;
+  --rust:#b85a17; --rust-soft:#fff1e3; --red:#b23b3b; --red-soft:#f8e2e2;
+  --ink-on-accent:#ffffff;
+  --round:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111714; --card:#182019; --hero:#1d5a33; --on-hero:#ffffff; --fg:#e5ece7; --muted:#9db0a5; --line:#2f3b35;
+  --green:#74cf8f; --green-soft:#1f3226; --water:#7ab9d9; --water-soft:#1a2d37;
+  --rust:#e39d6c; --rust-soft:#35261c; --red:#ec8a8a; --red-soft:#3a2222; --ink-on-accent:#10251a;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111714; --card:#182019; --hero:#1d5a33; --on-hero:#ffffff; --fg:#e5ece7; --muted:#9db0a5; --line:#2f3b35;
+  --green:#74cf8f; --green-soft:#1f3226; --water:#7ab9d9; --water-soft:#1a2d37;
+  --rust:#e39d6c; --rust-soft:#35261c; --red:#ec8a8a; --red-soft:#3a2222; --ink-on-accent:#10251a;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.85;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:640px;margin:0 auto;padding-block:20px 64px;display:grid;gap:28px}
+h1,h2,h3{font-family:var(--round);line-height:1.45;text-wrap:balance;word-break:auto-phrase;margin:0}
+.tl-body b,.point b,.mini b,.step b{word-break:auto-phrase}
+h1{font-size:30px}
+h2{font-size:23px}
+h3{font-size:18px;margin-top:6px}
+p{margin:0}
+.muted{color:var(--muted);font-size:14.5px}
+section{display:grid;gap:14px}
+.kicker{font-size:13px;font-weight:700;color:var(--green);letter-spacing:.06em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.hero{background:var(--green-soft);border-radius:18px;padding:22px 18px;display:grid;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14.5px;font-weight:500}
+.chip b{color:var(--green)}
+.points{display:grid;gap:10px}
+.point{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start}
+.point .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--round);font-weight:700;font-size:20px}
+.ic.g{background:var(--green-soft);color:var(--green)}
+.ic.w{background:var(--water-soft);color:var(--water)}
+.ic.r{background:var(--rust-soft);color:var(--rust)}
+.point b{display:block;font-size:16.5px}
+.point span{font-size:15px;color:var(--muted);line-height:1.7}
+figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 10px 14px;display:grid;gap:8px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14px;color:var(--muted);padding:0 6px;line-height:1.7}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.legend li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;font-size:15.5px;line-height:1.7}
+.n{width:26px;height:26px;border-radius:50%;background:var(--water);color:var(--ink-on-accent);display:grid;place-items:center;font-size:13.5px;font-weight:700;font-family:var(--round)}
+.n.g{background:var(--green)}.n.r{background:var(--rust)}
+.callout{border-radius:12px;padding:12px 14px;font-size:15.5px;line-height:1.75}
+.callout.ok{background:var(--green-soft)}
+.callout.warn{background:var(--rust-soft)}
+.callout.bad{background:var(--red-soft)}
+.callout b{font-weight:700}
+/* svg 共通 */
+.s-line{stroke:var(--muted);fill:none;stroke-width:1.5}
+.s-box{fill:var(--card);stroke:var(--muted);stroke-width:1.5}
+.s-pipe{stroke:var(--water);fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.s-flow{stroke:var(--card);fill:none;stroke-width:2;stroke-dasharray:4 10;stroke-linecap:round}
+.s-water{fill:var(--water-soft)}
+.s-waterline{stroke:var(--water);stroke-width:1.5;fill:none}
+.s-tank{fill:none;stroke:var(--fg);stroke-width:2}
+.s-text{fill:var(--fg);font-family:var(--body);font-size:13px}
+.s-small{fill:var(--muted);font-family:var(--body);font-size:11.5px}
+.s-bold{fill:var(--fg);font-family:var(--round);font-size:14px;font-weight:700}
+.s-leaf{fill:var(--green)}
+.s-stone{fill:var(--line);stroke:var(--muted);stroke-width:.8}
+.s-rust{fill:var(--rust)}
+.s-drop{fill:var(--water)}
+.s-green{fill:var(--green)}
+.s-red{stroke:var(--red);fill:none;stroke-width:4;stroke-linecap:round}
+.s-ok{stroke:var(--green);fill:none;stroke-width:4}
+.s-numc{fill:var(--water)}
+.s-numt{fill:var(--ink-on-accent);font-family:var(--round);font-size:12px;font-weight:700}
+.s-band-ok{fill:var(--green-soft)}
+.s-band-bad{fill:var(--red-soft)}
+.s-season{fill:var(--water);opacity:.12}
+.s-grid{stroke:var(--line);stroke-width:1}
+.s-redline{stroke:var(--red);stroke-width:1.5;stroke-dasharray:5 4}
+.s-dot{fill:var(--water);stroke:var(--card);stroke-width:2}
+.s-vinyl{fill:var(--water);opacity:.16;stroke:var(--water);stroke-width:1.5}
+.s-net{fill:none;stroke:var(--green);stroke-width:1.5;stroke-dasharray:3 3}
+.s-sun{fill:var(--rust)}
+.s-moon{fill:var(--muted)}
+.s-lamp-off{fill:var(--line);stroke:var(--muted)}
+.s-lamp-on{fill:var(--green)}
+/* 動き */
+@keyframes flow{to{stroke-dashoffset:-28}}
+.s-flow{animation:flow 1.1s linear infinite}
+@keyframes level{0%{transform:scaleY(.85)}72%{transform:scaleY(.42)}88%{transform:scaleY(.85)}100%{transform:scaleY(.85)}}
+@keyframes float{0%{transform:translateY(0)}72%{transform:translateY(60px)}88%{transform:translateY(0)}100%{transform:translateY(0)}}
+@keyframes fillphase{0%,71%{opacity:.12}73%,87%{opacity:1}89%,100%{opacity:.12}}
+@keyframes lamp{0%,71%{opacity:0}73%,87%{opacity:1}89%,100%{opacity:0}}
+@keyframes drip{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(22px);opacity:0}}
+@keyframes sink{0%{transform:translateY(0)}100%{transform:translateY(70px)}}
+@keyframes fall{0%{transform:translateY(-6px);opacity:0}20%{opacity:1}100%{transform:translateY(34px);opacity:0}}
+.lv{transform-box:fill-box;transform-origin:50% 100%;animation:level 16s ease-in-out infinite}
+.fl{animation:float 16s ease-in-out infinite}
+.fill-on{animation:fillphase 16s linear infinite}
+.lamp-on{animation:lamp 16s linear infinite}
+.drip{animation:drip 1.4s ease-in infinite}
+.drip.d2{animation-delay:.45s}.drip.d3{animation-delay:.9s}
+.sink{animation:sink 7s linear infinite alternate}
+.sink.k2{animation-delay:-2s}.sink.k3{animation-delay:-4s}.sink.k4{animation-delay:-5.5s}
+.fall{animation:fall 1.2s ease-in infinite}
+.fall.f2{animation-delay:.3s}.fall.f3{animation-delay:.6s}.fall.f4{animation-delay:.9s}
+@media (prefers-reduced-motion:reduce){
+  .s-flow,.lv,.fl,.fill-on,.lamp-on,.drip,.sink,.fall{animation:none}
+  .fill-on{opacity:.5}
+}
+/* 状態ステップ */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:14px;line-height:1.6;text-align:center}
+.step b{display:block;font-family:var(--round);font-size:15px;margin-bottom:2px}
+.step.on{border-color:var(--green);background:var(--green-soft)}
+/* 年間の流れ */
+.timeline{list-style:none;margin:0;padding:0;position:relative;display:grid;gap:12px}
+.timeline::before{content:"";position:absolute;left:31px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.timeline li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;position:relative}
+.mon{width:64px;height:40px;border-radius:10px;background:var(--card);border:1.5px solid var(--line);display:grid;place-items:center;font-family:var(--round);font-weight:700;font-size:14.5px;position:relative;z-index:1}
+.timeline li.hot .mon{background:var(--green);border-color:var(--green);color:var(--ink-on-accent)}
+.tl-body{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:15.5px;line-height:1.7}
+.tl-body b{display:block;font-size:16px}
+/* チェックリスト */
+.checklist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.checklist label{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font-size:15.5px;line-height:1.65}
+.checklist input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--green)}
+.checklist input:checked+span{color:var(--muted);text-decoration:line-through}
+.checklist small{display:block;color:var(--muted);font-size:13.5px}
+.checklist input:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+.group-title{font-size:14px;font-weight:700;color:var(--muted);margin:8px 0 -2px}
+.reset{justify-self:start;background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 14px;font:inherit;font-size:13.5px;cursor:pointer}
+.reset:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+/* カード一覧 */
+.cards{display:grid;gap:10px}
+.mini{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15.5px;line-height:1.7}
+.mini b{display:block;font-size:16px}
+.mini .when{display:inline-block;font-size:13px;font-weight:700;color:var(--water);background:var(--water-soft);border-radius:999px;padding:0 10px;margin:2px 0 4px}
+.tag{display:inline-block;font-size:12.5px;font-weight:700;border-radius:999px;padding:0 9px;margin-left:4px;vertical-align:2px}
+.tag.tmp{background:var(--rust-soft);color:var(--rust)}
+.tag.obs{background:var(--water-soft);color:var(--water)}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+summary{cursor:pointer;font-weight:700;font-size:16px}
+summary:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+details[open] summary{margin-bottom:10px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.6;min-width:460px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-size:12.5px}
+.src{margin:0;padding-left:1.2em;font-size:14px;line-height:1.7;display:grid;gap:4px}
+a{color:var(--water)}
+.bars{display:grid;gap:10px}
+.bar-row{display:grid;gap:4px;font-size:14.5px}
+.bar-track{height:14px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;border-radius:999px;background:var(--green)}
+.bar-fill.w{background:var(--water)}
+footer{font-size:14px;color:var(--muted);text-align:center}
+/* C案の上書き */
+body{font-size:18px;line-height:1.85}
+h2{font-size:24px;border-left:6px solid var(--green);padding-left:12px}
+h3{font-size:19px}
+.hero{background:var(--hero);color:var(--on-hero)}
+.hero .kicker{color:var(--on-hero);opacity:.85}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.big div{background:rgba(255,255,255,.15);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.5}
+.big b{display:block;font-size:24px}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nav a{display:block;border:2px solid var(--green);color:var(--green);border-radius:12px;padding:12px 8px;font-weight:700;font-size:16px;text-align:center;text-decoration:none;line-height:1.4}
+.nav a:active{background:var(--green-soft)}
+.nav a:focus-visible{outline:3px solid var(--water);outline-offset:2px}
+h2[id]{scroll-margin-top:16px}
+.rule{background:var(--rust-soft);border:2px solid var(--rust);border-radius:14px;padding:14px 16px;font-size:18px;font-weight:700;line-height:1.7}
+.card,figure,.mini,.tl-body,.step,details,.checklist label{border-width:2px}
+.point b{font-size:18px}.point span{font-size:16.5px;color:var(--fg)}
+.muted{font-size:15.5px}
+.legend li{font-size:16.5px}
+figcaption{font-size:15px}
+.checklist label{font-size:17px;padding:14px}
+.checklist input{width:26px;height:26px}
+.checklist small{font-size:14.5px}
+.mini{font-size:16.5px}.tl-body{font-size:16.5px}
+.callout{font-size:16.5px;border:2px solid transparent}
+.callout.warn{border-color:var(--rust)}
+.callout.ok{border-color:var(--green)}
+.reset{font-size:15px;padding:6px 16px;border-width:2px}
+
+</style>
+</head>
+<body>
+
+<div class="wrap" lang="ja">
+
+<header class="hero">
+  <div class="kicker">福山市神辺町・井戸水でつくる本わさび</div>
+  <h1>神辺わさび<br>冬春作計画書</h1>
+  <p>井戸水をかけ流して、<b>冬に植えて初夏に収穫</b>します。夏は井戸水がぬるくなるので育てず、毎年植え直します。</p>
+  <div class="big">
+    <div>植え付け<b>12月</b></div>
+    <div>収穫<b>6月ごろ</b></div>
+    <div>株数<b>5〜10株</b></div>
+    <div>場所<b>北側の日陰</b></div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="目次">
+  <a href="#h-system">しくみ</a>
+  <a href="#h-year">1年の流れ</a>
+  <a href="#h-daily">毎日見ること</a>
+  <a href="#h-buy">買うもの</a>
+  <a href="#h-todo">確かめること</a>
+  <a href="#h-trouble">困ったとき</a>
+</nav>
+
+<section aria-labelledby="h-rule">
+  <h2 id="h-rule">いちばん大事なこと</h2>
+  <div class="rule">水は根元に流す。<br>葉には水をかけない。<br>水温が19℃をこえる季節は育てない。</div>
+</section>
+
+<section aria-labelledby="h-points">
+  <h2 id="h-points">この計画の3つのポイント</h2>
+  <div class="points">
+    <div class="point"><div class="ic w">水</div><div><b>冷たい季節だけ育てる</b><span>わさびは19℃をこえる水が苦手。この深さの井戸は夏に20℃をこえるので、12月〜6月だけ育てます。</span></div></div>
+    <div class="point"><div class="ic r">鉄</div><div><b>タンクで鉄をぬいてから流す</b><span>井戸水を空気にふれさせると、溶けていた鉄がサビになって沈みます。きれいな上の水だけを使います。</span></div></div>
+    <div class="point"><div class="ic g">根</div><div><b>水は根元に、葉にはかけない</b><span>水は株元の石のすき間を流します。上から葉にかけると、根が腐る病気が出やすくなります。</span></div></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-why">
+  <div class="kicker">なぜ冬〜春だけ？</div>
+  <h2 id="h-why">夏の井戸水は、わさびには温かすぎる</h2>
+  <figure>
+    <svg viewBox="0 0 360 250" role="img" aria-label="神辺の浅い井戸の水温。1月16.7度、7月21.9度、10月20.5度。19度より上はわさびが弱る">
+      <rect class="s-band-bad" x="34" y="40" width="312" height="80"/>
+      <rect class="s-band-ok" x="34" y="120" width="312" height="80"/>
+      <path d="M34 26 V32 M191 26 V32 M34 29 H191" style="stroke:var(--water);stroke-width:2;fill:none"/>
+      <path d="M318 26 V32 M346 26 V32 M318 29 H346" style="stroke:var(--water);stroke-width:2;fill:none"/>
+      <line class="s-grid" x1="34" y1="200" x2="346" y2="200"/>
+      <line class="s-redline" x1="34" y1="120" x2="346" y2="120"/>
+      <text class="s-small" x="30" y="44" text-anchor="end">24℃</text>
+      <text class="s-small" x="30" y="124" text-anchor="end">19℃</text>
+      <text class="s-small" x="30" y="204" text-anchor="end">14℃</text>
+      <text class="s-text" x="342" y="58" text-anchor="end" style="fill:var(--red)">根が腐りやすい</text>
+      <text class="s-text" x="342" y="190" text-anchor="end" style="fill:var(--green)">わさびが元気な温度</text>
+      <text class="s-small" x="112" y="20" text-anchor="middle" style="fill:var(--water)">育てる期間（12月〜6月）</text>
+      <g text-anchor="middle">
+        <text class="s-small" x="47" y="220">1月</text><text class="s-small" x="99" y="220">3月</text><text class="s-small" x="151" y="220">5月</text><text class="s-small" x="203" y="220">7月</text><text class="s-small" x="255" y="220">9月</text><text class="s-small" x="307" y="220">11月</text>
+      </g>
+      <circle class="s-dot" cx="47" cy="157" r="6"/>
+      <text class="s-bold" x="60" y="152">16.7℃</text>
+      <circle class="s-dot" cx="203" cy="74" r="6"/>
+      <text class="s-bold" x="203" y="62" text-anchor="middle">21.9℃</text>
+      <circle class="s-dot" cx="281" cy="96" r="6"/>
+      <text class="s-bold" x="281" y="88" text-anchor="middle">20.5℃</text>
+      <text class="s-small" x="190" y="242" text-anchor="middle">●は神辺の浅い井戸（深さ9.5m）で県が測った水温</text>
+    </svg>
+    <figcaption>うちの井戸（深さ6〜9m）も、近くの同じくらいの深さの井戸とほぼ同じ温度と考えています。井戸水は気温より1〜2か月遅れて温度が変わるので、秋もまだ温かく、冬〜春に一番冷たくなります。</figcaption>
+  </figure>
+  <div class="callout warn"><b>収穫は6月ごろが目安。</b>ただし、春に水温が18℃をこえたら早めに収穫します。18〜19℃をこえると根が腐る病気（軟腐病）が急に増えるためです。</div>
+</section>
+
+<section aria-labelledby="h-system">
+  <div class="kicker">しくみ全体</div>
+  <h2 id="h-system">井戸からわさびまで、水の通り道</h2>
+  <figure>
+    <svg viewBox="0 0 360 570" role="img" aria-label="井戸ポンプから電磁弁、タンク、ろ過カゴ、バルブ、樋を通って栽培槽へ流れ、排水される図">
+      <!-- ポンプ -->
+      <rect class="s-box" x="12" y="22" width="112" height="52" rx="10"/>
+      <text class="s-bold" x="68" y="45" text-anchor="middle">井戸ポンプ</text>
+      <text class="s-small" x="68" y="63" text-anchor="middle">蛇口は開けたまま</text>
+      <!-- 電磁弁へ -->
+      <path class="s-pipe" d="M124 48 H168"/>
+      <path class="s-pipe" d="M212 48 H262 V102"/>
+      <path class="s-flow fill-on" d="M212 48 H262 V102"/>
+      <rect class="s-box" x="168" y="34" width="44" height="28" rx="6"/>
+      <circle class="s-lamp-off" cx="190" cy="48" r="6"/>
+      <circle class="s-lamp-on lamp-on" cx="190" cy="48" r="6"/>
+      <text class="s-text" x="190" y="84" text-anchor="middle">電磁弁</text>
+      <!-- タンク -->
+      <g>
+        <rect class="s-water lv" x="192" y="104" width="136" height="146"/>
+      </g>
+      <rect class="s-tank" x="190" y="102" width="140" height="150" rx="8"/>
+      <g class="fill-on">
+        <rect class="s-drop fall" x="252" y="110" width="2.5" height="8" rx="1"/>
+        <rect class="s-drop fall f2" x="260" y="110" width="2.5" height="8" rx="1"/>
+        <rect class="s-drop fall f3" x="268" y="110" width="2.5" height="8" rx="1"/>
+        <rect class="s-drop fall f4" x="276" y="110" width="2.5" height="8" rx="1"/>
+      </g>
+      <line class="s-line" x1="318" y1="108" x2="318" y2="246"/>
+      <g class="fl"><rect x="311" y="122" width="14" height="10" rx="3" class="s-sun"/></g>
+      <text class="s-small" x="306" y="166" text-anchor="end">水位スイッチ</text>
+      <circle class="s-rust" cx="214" cy="244" r="2"/><circle class="s-rust" cx="226" cy="246" r="2"/><circle class="s-rust" cx="240" cy="245" r="2"/>
+      <text class="s-bold" x="260" y="272" text-anchor="middle">タンク（200L）</text>
+      <line class="s-line" x1="202" y1="252" x2="202" y2="298"/><line class="s-line" x1="318" y1="252" x2="318" y2="298"/>
+      <text class="s-small" x="260" y="292" text-anchor="middle">台にのせて高く</text>
+      <!-- 出口からろ過へ -->
+      <path class="s-pipe" d="M190 206 H150 V318"/>
+      <path class="s-flow" d="M190 206 H150 V318"/>
+      <text class="s-small" x="146" y="196" text-anchor="end">底より上から取る</text>
+      <rect class="s-box" x="104" y="318" width="92" height="38" rx="8"/>
+      <text class="s-text" x="150" y="342" text-anchor="middle">ろ過カゴ</text>
+      <path class="s-pipe" d="M150 356 V386"/>
+      <path class="s-flow" d="M150 356 V386"/>
+      <path d="M140 366 L160 378 L160 366 L140 378 Z" style="fill:var(--card);stroke:var(--fg);stroke-width:1.5"/>
+      <text class="s-small" x="168" y="376">バルブ（毎分2〜3L）</text>
+      <!-- 樋 -->
+      <path class="s-pipe" d="M150 386 L240 432" style="stroke-width:7"/>
+      <path class="s-flow" d="M150 386 L240 432"/>
+      <text class="s-text" x="88" y="414">樋（とい）</text>
+      <rect class="s-drop drip" x="241" y="436" width="3" height="7" rx="1.5"/>
+      <rect class="s-drop drip d2" x="241" y="436" width="3" height="7" rx="1.5"/>
+      <!-- 栽培槽 -->
+      <rect class="s-water" x="42" y="500" width="286" height="20"/>
+      <rect class="s-tank" x="40" y="452" width="290" height="70" rx="6"/>
+      <g>
+        <circle class="s-stone" cx="64" cy="472" r="6"/><circle class="s-stone" cx="86" cy="480" r="7"/><circle class="s-stone" cx="108" cy="470" r="6"/><circle class="s-stone" cx="132" cy="482" r="7"/><circle class="s-stone" cx="156" cy="472" r="6"/><circle class="s-stone" cx="178" cy="484" r="7"/><circle class="s-stone" cx="204" cy="472" r="6"/><circle class="s-stone" cx="228" cy="482" r="7"/><circle class="s-stone" cx="270" cy="474" r="6"/><circle class="s-stone" cx="292" cy="484" r="7"/><circle class="s-stone" cx="312" cy="472" r="6"/>
+      </g>
+      <g>
+        <path class="s-line" d="M110 462 V432 M250 462 V432 M180 462 V436" style="stroke:var(--green);stroke-width:2"/>
+        <ellipse class="s-leaf" cx="98" cy="424" rx="14" ry="10"/><ellipse class="s-leaf" cx="122" cy="428" rx="14" ry="10"/>
+        <ellipse class="s-leaf" cx="170" cy="428" rx="14" ry="10"/><ellipse class="s-leaf" cx="192" cy="430" rx="13" ry="9"/>
+        <ellipse class="s-leaf" cx="262" cy="422" rx="14" ry="10"/><ellipse class="s-leaf" cx="276" cy="432" rx="12" ry="8"/>
+      </g>
+      <text class="s-small" x="48" y="515">水5cm</text>
+      <path class="s-pipe" d="M330 512 Q346 514 346 534"/>
+      <rect class="s-drop drip" x="344" y="536" width="3" height="7" rx="1.5"/>
+      <text class="s-small" x="352" y="562" text-anchor="end">排水</text>
+      <text class="s-bold" x="185" y="548" text-anchor="middle">栽培槽（トロ舟）</text>
+    </svg>
+    <figcaption>タンクの水位が下がると電磁弁のランプが点いて井戸水が入り、満タンになると止まります（図は約16秒で1回りします）。タンクから先は、高さの差だけで水が流れます。</figcaption>
+  </figure>
+  <div class="steps" aria-label="タンクの給水の流れ">
+    <div class="step"><b>① 使う</b>わさびへ少しずつ流れ、タンクの水が減っていく</div>
+    <div class="step on"><b>② 給水</b>下限まで減ると電磁弁が開き、ポンプが一気に汲む</div>
+    <div class="step"><b>③ 止まる</b>満タンで電磁弁が閉じ、ポンプも自然に止まる</div>
+  </div>
+  <p class="muted">目安：200Lタンクで100L分を上下させると、約5分汲んで約40分休む、のくり返しです。細い水をずっと出し続けるより、ポンプが長持ちし、電気代も半年で約4千円台（常に動かすと約4万円）に抑えられる見込みです（概算）。</p>
+  <div class="callout ok"><b>電磁弁</b>は、電気で開け閉めする水の弁です。<b>電気が切れると閉じるタイプ</b>を選ぶので、停電してもタンクから水があふれません。</div>
+</section>
+
+<section aria-labelledby="h-iron">
+  <div class="kicker">鉄をぬくしかけ</div>
+  <h2 id="h-iron">タンクの中で、鉄をサビにして沈める</h2>
+  <figure>
+    <svg viewBox="0 0 360 290" role="img" aria-label="タンクの断面。上から水を落として空気にふれさせ、鉄がサビになって沈み、底の水抜き栓から出す。出口は底より上">
+      <path class="s-pipe" d="M180 8 V30"/>
+      <rect x="160" y="30" width="40" height="8" rx="3" style="fill:var(--fg)"/>
+      <rect class="s-drop fall" x="166" y="42" width="2.5" height="9" rx="1"/><rect class="s-drop fall f2" x="174" y="42" width="2.5" height="9" rx="1"/><rect class="s-drop fall f3" x="182" y="42" width="2.5" height="9" rx="1"/><rect class="s-drop fall f4" x="190" y="42" width="2.5" height="9" rx="1"/>
+      <rect class="s-water" x="82" y="82" width="196" height="176"/>
+      <line class="s-waterline" x1="82" y1="82" x2="278" y2="82"/>
+      <rect class="s-tank" x="80" y="46" width="200" height="214" rx="10"/>
+      <g>
+        <circle class="s-rust sink" cx="120" cy="100" r="3"/><circle class="s-rust sink k2" cx="160" cy="120" r="2.5"/><circle class="s-rust sink k3" cx="205" cy="104" r="3"/><circle class="s-rust sink k4" cx="240" cy="126" r="2.5"/><circle class="s-rust sink k2" cx="140" cy="150" r="2.5"/><circle class="s-rust sink" cx="225" cy="160" r="3"/>
+      </g>
+      <path d="M82 246 Q130 236 180 242 T278 240 V258 H82 Z" class="s-rust" style="opacity:.55"/>
+      <path class="s-pipe" d="M280 170 H330 V200"/>
+      <path class="s-flow" d="M280 170 H330 V200"/>
+      <path class="s-pipe" d="M110 260 V276" style="stroke:var(--rust)"/>
+      <rect x="100" y="272" width="20" height="8" rx="2" style="fill:var(--fg)"/>
+      <circle class="s-numc" cx="222" cy="30" r="11"/><text class="s-numt" x="222" y="34" text-anchor="middle">1</text>
+      <circle class="s-numc" cx="58" cy="130" r="11"/><text class="s-numt" x="58" y="134" text-anchor="middle">2</text>
+      <circle class="s-numc" cx="330" cy="150" r="11"/><text class="s-numt" x="330" y="154" text-anchor="middle">3</text>
+      <circle class="s-numc" cx="148" cy="276" r="11"/><text class="s-numt" x="148" y="280" text-anchor="middle">4</text>
+    </svg>
+  </figure>
+  <ol class="legend">
+    <li><span class="n">1</span><span><b>上から落とす</b>：井戸水はタンクの上からシャワーのように落とし、空気をたっぷり含ませます（わさびにかける水ではありません）</span></li>
+    <li><span class="n">2</span><span><b>サビになって沈む</b>：水に溶けていた鉄が、空気にふれて茶色いサビの粒になり、ゆっくり沈みます。タンクには40〜80分ほど水がとどまるので、その間に沈みます</span></li>
+    <li><span class="n">3</span><span><b>上の水だけ出す</b>：出口は底から離して付け、沈んだサビを吸わないようにします</span></li>
+    <li><span class="n">4</span><span><b>底のサビを出す</b>：たまったサビは、底の水抜き栓から2週間に1回くらい出します</span></li>
+  </ol>
+  <p class="muted">タンクの後ろに「ろ過カゴ」（たわし・スポンジ入り）を置き、細かいサビの粒も受け止めます。冬はタンクの水が冷えすぎないよう、断熱材を巻いてふたをします。</p>
+</section>
+
+<section aria-labelledby="h-bed">
+  <div class="kicker">わさびを植える場所</div>
+  <h2 id="h-bed">栽培槽は「底に水がたまる石のベッド」</h2>
+  <figure>
+    <svg viewBox="0 0 360 250" role="img" aria-label="栽培槽の断面。樋から株元に水を流し、軽石の中を水が通り、底に5cmの水がたまり、5cmの高さの穴から排水する">
+      <path class="s-pipe" d="M8 60 L120 104" style="stroke-width:7"/>
+      <path class="s-flow" d="M8 60 L120 104"/>
+      <rect class="s-drop drip" x="121" y="108" width="3" height="8" rx="1.5"/><rect class="s-drop drip d2" x="121" y="108" width="3" height="8" rx="1.5"/><rect class="s-drop drip d3" x="121" y="108" width="3" height="8" rx="1.5"/>
+      <rect class="s-water" x="32" y="188" width="296" height="40"/>
+      <line class="s-waterline" x1="32" y1="188" x2="328" y2="188"/>
+      <rect x="40" y="130" width="280" height="96" rx="4" style="fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4"/>
+      <rect class="s-tank" x="30" y="120" width="300" height="110" rx="8"/>
+      <g>
+        <circle class="s-stone" cx="60" cy="146" r="8"/><circle class="s-stone" cx="84" cy="160" r="9"/><circle class="s-stone" cx="110" cy="144" r="8"/><circle class="s-stone" cx="138" cy="160" r="9"/><circle class="s-stone" cx="166" cy="146" r="8"/><circle class="s-stone" cx="196" cy="162" r="9"/><circle class="s-stone" cx="226" cy="146" r="8"/><circle class="s-stone" cx="256" cy="160" r="9"/><circle class="s-stone" cx="286" cy="146" r="8"/><circle class="s-stone" cx="306" cy="164" r="8"/>
+        <circle class="s-stone" cx="70" cy="184" r="9"/><circle class="s-stone" cx="100" cy="200" r="8"/><circle class="s-stone" cx="128" cy="184" r="9"/><circle class="s-stone" cx="158" cy="202" r="8"/><circle class="s-stone" cx="188" cy="186" r="9"/><circle class="s-stone" cx="218" cy="204" r="8"/><circle class="s-stone" cx="248" cy="186" r="9"/><circle class="s-stone" cx="278" cy="204" r="8"/><circle class="s-stone" cx="300" cy="186" r="8"/><circle class="s-stone" cx="72" cy="214" r="8"/><circle class="s-stone" cx="246" cy="216" r="8"/>
+      </g>
+      <path d="M128 136 V96" style="stroke:var(--green);stroke-width:3;fill:none"/>
+      <path d="M128 136 q-6 8 -14 12 M128 136 q4 9 12 12" style="stroke:var(--green);stroke-width:1.5;fill:none"/>
+      <ellipse class="s-leaf" cx="108" cy="86" rx="20" ry="13"/><ellipse class="s-leaf" cx="146" cy="82" rx="20" ry="13"/><ellipse class="s-leaf" cx="128" cy="66" rx="17" ry="11"/>
+      <rect x="122" y="128" width="12" height="16" rx="5" style="fill:var(--green);opacity:.65"/>
+      <path class="s-pipe" d="M330 212 Q348 214 348 232"/>
+      <rect class="s-drop drip" x="346" y="234" width="3" height="7" rx="1.5"/>
+      <text class="s-small" x="160" y="226" style="stroke:var(--water-soft);stroke-width:4;paint-order:stroke">水5cm</text>
+      <circle class="s-numc" cx="58" cy="94" r="11"/><text class="s-numt" x="58" y="98" text-anchor="middle">1</text>
+      <circle class="s-numc" cx="184" cy="70" r="11"/><text class="s-numt" x="184" y="74" text-anchor="middle">2</text>
+      <circle class="s-numc" cx="250" cy="134" r="11"/><text class="s-numt" x="250" y="138" text-anchor="middle">3</text>
+      <circle class="s-numc" cx="190" cy="242" r="11"/><text class="s-numt" x="190" y="246" text-anchor="middle">4</text>
+      <circle class="s-numc" cx="340" cy="190" r="11"/><text class="s-numt" x="340" y="194" text-anchor="middle">5</text>
+    </svg>
+  </figure>
+  <ol class="legend">
+    <li><span class="n">1</span><span><b>樋から株元へ</b>：水は株の根元の石の上に、ちょろちょろ流します</span></li>
+    <li><span class="n">2</span><span><b>葉には水をかけない</b>：葉や株の頭（芽が出るところ）はぬらさないようにします</span></li>
+    <li><span class="n">3</span><span><b>メッシュのカゴ＋軽石</b>：カゴに日向土か大粒の軽石（1〜2cm）を入れます。土は使いません</span></li>
+    <li><span class="n">4</span><span><b>底に5cmの水</b>：いつも底に水がたまるので、ポンプが止まっても根がすぐには乾きません</span></li>
+    <li><span class="n">5</span><span><b>5cmの高さに排水の穴</b>：トロ舟の横、底から5cmの所に穴を開け、あふれた水を外へ流します</span></li>
+  </ol>
+  <figure>
+    <svg viewBox="0 0 360 170" role="img" aria-label="良い例：水を株元に流す。悪い例：上から葉に水をかける">
+      <rect class="s-box" x="6" y="6" width="168" height="158" rx="12"/>
+      <rect class="s-box" x="186" y="6" width="168" height="158" rx="12"/>
+      <circle class="s-ok" cx="34" cy="34" r="16"/>
+      <path class="s-red" d="M200 20 L228 48 M228 20 L200 48"/>
+      <!-- 左：根元に -->
+      <rect class="s-stone" x="26" y="122" width="128" height="22" rx="4"/>
+      <path d="M90 124 V96" style="stroke:var(--green);stroke-width:3"/>
+      <ellipse class="s-leaf" cx="74" cy="88" rx="17" ry="11"/><ellipse class="s-leaf" cx="106" cy="86" rx="17" ry="11"/><ellipse class="s-leaf" cx="90" cy="72" rx="14" ry="9"/>
+      <path class="s-pipe" d="M150 92 L104 116" style="stroke-width:5"/>
+      <rect class="s-drop drip" x="100" y="116" width="3" height="6" rx="1.5"/>
+      <text class="s-text" x="90" y="158" text-anchor="middle">根元に流す</text>
+      <!-- 右：上から -->
+      <rect class="s-stone" x="206" y="122" width="128" height="22" rx="4"/>
+      <path d="M270 124 V96" style="stroke:var(--green);stroke-width:3"/>
+      <ellipse class="s-leaf" cx="254" cy="88" rx="17" ry="11"/><ellipse class="s-leaf" cx="286" cy="86" rx="17" ry="11"/><ellipse class="s-leaf" cx="270" cy="72" rx="14" ry="9"/>
+      <rect x="254" y="30" width="32" height="8" rx="3" style="fill:var(--fg)"/>
+      <rect class="s-drop fall" x="258" y="42" width="2.5" height="8" rx="1"/><rect class="s-drop fall f2" x="266" y="42" width="2.5" height="8" rx="1"/><rect class="s-drop fall f3" x="274" y="42" width="2.5" height="8" rx="1"/><rect class="s-drop fall f4" x="282" y="42" width="2.5" height="8" rx="1"/>
+      <text class="s-text" x="270" y="158" text-anchor="middle">上から葉にかける</text>
+    </svg>
+    <figcaption>本場のわさび田も、水は根の周りの石のすき間を流れるつくりです。上からたくさん水をかけると、根が腐る病気が出やすくなるとされています。水は止めずに流し続けるのが大事です。</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="h-year">
+  <div class="kicker">1年の流れ</div>
+  <h2 id="h-year">11月に準備、12月に植えて、6月に収穫</h2>
+  <ol class="timeline">
+    <li><div class="mon">11月</div><div class="tl-body"><b>準備・組み立て・試運転</b>タンクや栽培槽を組み、水がちゃんと流れるか確かめます。苗もこの時期に注文します。</div></li>
+    <li class="hot"><div class="mon">12月</div><div class="tl-body"><b>植え付け（12月上旬〜中旬）</b>井戸水が19℃を下回ったら植えます。植えてから約2週間は覆いをせず、寒さに当てます。</div></li>
+    <li><div class="mon">12月末</div><div class="tl-body"><b>ビニールで夜の冷えをふせぐ（〜2月）</b>トンネルにビニールをかけます。昼に蒸れないよう、両端は少し開けておきます。</div></li>
+    <li><div class="mon">2〜4月</div><div class="tl-body"><b>花の芽をつむ</b>花に栄養を取られないよう、早めにつみます。つんだ花の茎は「花わさび」として食べられます。</div></li>
+    <li><div class="mon">3月</div><div class="tl-body"><b>肥料を足す・覆いを替える</b>ゆっくり効く肥料を石の上に少し足します。ビニールを外し、日差しが当たるなら日よけネットと虫よけネットに替えます。</div></li>
+    <li class="hot"><div class="mon">6月</div><div class="tl-body"><b>収穫・片付け</b>根、茎、葉を収穫します。春に水温が18℃をこえたら、早めに収穫します。</div></li>
+  </ol>
+  <figure>
+    <svg viewBox="0 0 360 170" role="img" aria-label="冬はビニールのトンネルで夜の冷えを防ぎ、春は日よけと虫よけのネットをかける">
+      <rect class="s-box" x="6" y="6" width="168" height="158" rx="12"/>
+      <rect class="s-box" x="186" y="6" width="168" height="158" rx="12"/>
+      <circle class="s-moon" cx="36" cy="34" r="10"/>
+      <path class="s-vinyl" d="M24 128 Q90 30 156 128 Z"/>
+      <rect class="s-stone" x="30" y="122" width="120" height="16" rx="3"/>
+      <ellipse class="s-leaf" cx="76" cy="114" rx="12" ry="8"/><ellipse class="s-leaf" cx="104" cy="114" rx="12" ry="8"/>
+      <text class="s-text" x="90" y="156" text-anchor="middle">冬：ビニール</text>
+      <circle class="s-sun" cx="216" cy="34" r="10"/>
+      <path class="s-net" d="M204 128 Q270 30 336 128"/>
+      <path class="s-net" d="M222 128 Q270 52 318 128"/>
+      <rect class="s-stone" x="210" y="122" width="120" height="16" rx="3"/>
+      <ellipse class="s-leaf" cx="256" cy="112" rx="14" ry="10"/><ellipse class="s-leaf" cx="286" cy="112" rx="14" ry="10"/>
+      <text class="s-text" x="270" y="156" text-anchor="middle">春：日よけ・虫よけネット</text>
+    </svg>
+    <figcaption>春の日よけは、北側の日陰と合わせて「4割くらい日をさえぎる」のが目安です。研究では、その程度の日よけで根が一番大きく育ちました。</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="h-size">
+  <div class="kicker">どれくらい育つ？</div>
+  <h2 id="h-size">根は「親指くらい」を目標に</h2>
+  <div class="card bars">
+    <div class="bar-row"><span>お店の本わさび（1〜2年育てたもの）約100g</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></div>
+    <div class="bar-row"><span>奈良の平地で水耕栽培した研究（10か月）約10g</span><div class="bar-track"><div class="bar-fill w" style="width:10.6%"></div></div></div>
+  </div>
+  <p>今回は半年ほどの栽培なので、根はさらに小さめになりそうです。そのぶん、<b>葉・茎・花わさびも収穫して楽しむ</b>のがこの計画の考え方です。</p>
+</section>
+
+<section aria-labelledby="h-daily">
+  <div class="kicker">毎日・ときどき見ること</div>
+  <h2 id="h-daily">毎日見るのは「流れているか」と「汚れていないか」</h2>
+  <p class="muted">タップするとチェックできます（このスマホに記録されます）。</p>
+  <ul class="checklist" data-list="daily">
+    <li><label><input type="checkbox" id="d1"><span>樋から株元へ水が流れている<small>流れが止まると、根が腐る病気の原因になります</small></span></label></li>
+    <li><label><input type="checkbox" id="d2"><span>樋や石の上に茶色いサビがたまっていない</span></label></li>
+    <li><label><input type="checkbox" id="d3"><span>葉が茶色く汚れていない<small>鉄が多すぎるサインです</small></span></label></li>
+    <li><label><input type="checkbox" id="d4"><span>冬：ビニールの中が昼に蒸れすぎていない</span></label></li>
+    <li><label><input type="checkbox" id="d5"><span>春：葉の裏にアオムシやアブラムシがいない</span></label></li>
+  </ul>
+  <button class="reset" type="button" data-reset="daily">チェックを外す</button>
+  <h3>ときどきやること</h3>
+  <div class="cards">
+    <div class="mini"><b>タンクの底のサビを出す</b><span class="when">2週間に1回</span><br>底の水抜き栓を開けて出します。サビが多ければ回数を増やします。</div>
+    <div class="mini"><b>ろ過カゴを洗う</b><span class="when">月1回くらい</span><br>たわし・スポンジを取り出して洗います。</div>
+    <div class="mini"><b>肥料を足す</b><span class="when">3月ごろ</span><br>ゆっくり効く肥料を石の上に少し置きます。</div>
+    <div class="mini"><b>花の芽をつむ</b><span class="when">2〜4月</span><br>つんだ花の茎は食べられます。</div>
+  </div>
+  <div class="callout warn"><b>虫が出たら：</b>防虫ネットで防ぎ、見つけたら取ります。薬を使うなら、水で育てるわさびに使えるものは限られるので、野菜用に登録された「食品添加物」や「生物農薬」（BT剤など）から選びます。</div>
+</section>
+
+<section aria-labelledby="h-buy">
+  <div class="kicker">そろえるもの</div>
+  <h2 id="h-buy">買うもの・用意するもの</h2>
+  <p class="muted">そろえたものからタップしてください。</p>
+  <ul class="checklist" data-list="buy">
+    <li class="group-title">水を送る</li>
+    <li><label><input type="checkbox" id="b1"><span>電磁弁（電気が切れると閉じるタイプ）<small>蛇口からタンクへのホースの途中に付けます</small></span></label></li>
+    <li><label><input type="checkbox" id="b2"><span>水位スイッチ（フロート式など）<small>下の水位で開け、上の水位で閉める「2点で切り替える」もの。屋外用の防水タイプ</small></span></label></li>
+    <li><label><input type="checkbox" id="b3"><span>ホース、流量を調整するバルブ</span></label></li>
+    <li class="group-title">鉄をぬく</li>
+    <li><label><input type="checkbox" id="b4"><span>ふた付きタンク（200Lくらい）、水抜き栓、断熱材</span></label></li>
+    <li><label><input type="checkbox" id="b5"><span>シャワーノズル（タンクに入れる口用）</span></label></li>
+    <li><label><input type="checkbox" id="b6"><span>ろ過カゴ＋ナイロンたわし・粗目のスポンジ</span></label></li>
+    <li><label><input type="checkbox" id="b7"><span>タンクを載せる台</span></label></li>
+    <li><label><input type="checkbox" id="b8"><span>カキ殻（ネット入り）<small>水が酸性寄りのときだけ。なくてもOK</small></span></label></li>
+    <li class="group-title">植える</li>
+    <li><label><input type="checkbox" id="b9"><span>トロ舟（60〜80L）、メッシュのカゴ</span></label></li>
+    <li><label><input type="checkbox" id="b10"><span>日向土または大粒の軽石（1〜2cm）15〜20L</span></label></li>
+    <li><label><input type="checkbox" id="b11"><span>半分に割った塩ビ管か雨どい（樋）</span></label></li>
+    <li><label><input type="checkbox" id="b12"><span>苗 5〜10株<small>例：六方沢わさび、静岡系の苗。育ちの早さは販売元に確認</small></span></label></li>
+    <li><label><input type="checkbox" id="b13"><span>ゆっくり効く肥料（マグァンプKなど）</span></label></li>
+    <li class="group-title">季節の覆い・測る道具</li>
+    <li><label><input type="checkbox" id="b14"><span>トンネル支柱、農業用ビニール</span></label></li>
+    <li><label><input type="checkbox" id="b15"><span>日よけネット、防虫ネット</span></label></li>
+    <li><label><input type="checkbox" id="b16"><span>水温計、鉄を測る簡易キット</span></label></li>
+  </ul>
+  <button class="reset" type="button" data-reset="buy">チェックを外す</button>
+</section>
+
+<section aria-labelledby="h-todo">
+  <div class="kicker">まだ決まっていないこと</div>
+  <h2 id="h-todo">始める前に確かめること</h2>
+  <div class="cards">
+    <div class="mini"><b>タンクの近くにコンセントがあるか</b>電磁弁と水位スイッチに電気が要ります。なければ屋外コンセントを付けられるか業者さんに相談します。</div>
+    <div class="mini"><b>井戸水の温度</b>水温計で測り、19℃を下回ったら植え時です。冬の間も時々記録しておくと、来年の参考になります。</div>
+    <div class="mini"><b>鉄の量</b>簡易キットで測ります。とても多いと（1Lに20〜30mgほど）葉が茶色くなって枯れることもあるので、タンクを大きくする・サビを出す回数を増やすなどで調整します。</div>
+    <div class="mini"><b>水の酸っぱさ（pH）</b>酸性寄りだと鉄がサビになりにくいので、カキ殻を入れるか考えます。</div>
+    <div class="mini"><b>電磁弁・水位スイッチの部品選び</b>屋外で使えるか、ホースの太さに合うかを確認します。</div>
+  </div>
+</section>
+
+<section aria-labelledby="h-trouble">
+  <div class="kicker">困ったときは</div>
+  <h2 id="h-trouble">こんなときは、こうする</h2>
+  <div class="cards">
+    <div class="mini"><b>井戸水が思ったより温かい</b>植え付けを遅らせる、収穫を早めるで調整します。</div>
+    <div class="mini"><b>サビが多くて樋や石がつまる</b>タンクを大きくするか、サビ出しとカゴ洗いの回数を増やします。</div>
+    <div class="mini"><b>冬に強く冷え込む</b>夜はビニールのトンネルをしっかり閉じます（昼は少し開けます）。</div>
+    <div class="mini"><b>停電・ポンプの故障</b>井戸からの水は止まりますが（停電のときは電磁弁も閉じるので、復旧時にあふれません）、タンクに残った水で40〜80分ほど流れ続け、その後も底の5cmの水で根が乾くのを防ぎます。</div>
+    <div class="mini"><b>根が小さい</b>半年では大きくなりにくいので想定内。葉や茎、花わさびも楽しみましょう。</div>
+  </div>
+</section>
+
+<section aria-labelledby="h-more">
+  <h2 id="h-more">くわしい数字と出典</h2>
+  <details>
+    <summary>計画の前提にした数字</summary>
+    <div class="tbl"><table>
+      <tr><th>項目</th><th>値</th><th>出どころ</th></tr>
+      <tr><td>わさびに合う水温</td><td>8〜19℃（一番よいのは12〜13℃）</td><td>近畿大の論文</td></tr>
+      <tr><td>根が腐る病気が急に増える水温</td><td>18〜19℃以上</td><td>島根県の資料</td></tr>
+      <tr><td>井戸水温（冬） <span class="tag obs">近くの観測</span></td><td>16〜17℃（1月16.7℃）</td><td>神辺の浅い井戸（深さ9.5m）の県の調査</td></tr>
+      <tr><td>井戸水温（夏〜秋） <span class="tag obs">近くの観測</span></td><td>7月21.9℃、10月20.5℃</td><td>同上と、神辺の別の井戸</td></tr>
+      <tr><td>水温の変わり方</td><td>気温より1〜2か月遅れる</td><td>産総研の解説</td></tr>
+      <tr><td>冬の気温</td><td>1月の平均最低0.0℃、2025年2月25日に−4.6℃</td><td>福山の平年値・観測</td></tr>
+      <tr><td>鉄の量 <span class="tag tmp">仮</span></td><td>1Lに数mg〜10mgくらいでも処理できる設計</td><td>公的なデータなし</td></tr>
+      <tr><td>植え付け <span class="tag tmp">仮</span></td><td>12月上旬〜中旬</td><td>水温が19℃を下回る時期の推定</td></tr>
+      <tr><td>収穫 <span class="tag tmp">仮</span></td><td>6月ごろ（水温18℃をこえたら前倒し）</td><td>観測値から、5月中に18〜19℃に届く可能性</td></tr>
+    </table></div>
+  </details>
+  <details>
+    <summary>前の計画（Ver.2.0）から変えたところ</summary>
+    <div class="cards">
+      <div class="mini"><b>夏越しをやめた</b>この深さの井戸は夏〜秋に20℃をこえるため、12月〜6月だけ育てる形にしました。</div>
+      <div class="mini"><b>鉄のぬき方を変えた</b>「下から入れて菌で鉄を取る槽」から、「上から落として沈めるタンク」へ。2週間の準備期間も不要になりました。</div>
+      <div class="mini"><b>ポンプの動かし方を変えた</b>細い水を出しっぱなしにせず、電磁弁と水位スイッチでまとめて汲んで止めます。</div>
+      <div class="mini"><b>夏の日よけドームをやめた</b>冬はビニール、春は4割くらいの日よけに。8割の日よけは暗すぎます。</div>
+      <div class="mini"><b>苗と収穫の見込みを変えた</b>真妻は育ちが遅いので、入手しやすく早く育つ苗を探します。収穫は6月ごろ、根は小さめの見込みです。</div>
+    </div>
+  </details>
+  <details>
+    <summary>参考にした資料</summary>
+    <ul class="src">
+      <li><a href="https://kindai.repo.nii.ac.jp/record/5340/files/AN00064044-20130330-0073.pdf">近畿大学 養液栽培法と自然栽培法ワサビの生育の比較</a></li>
+      <li><a href="https://www.pref.hiroshima.lg.jp/uploaded/attachment/21404.pdf">広島県 地下水水質調査結果 2007年度</a>・<a href="https://www.pref.hiroshima.lg.jp/uploaded/attachment/21422.pdf">2008年度</a>・<a href="https://www.pref.hiroshima.lg.jp/uploaded/attachment/21517.csv">2008年度CSV</a></li>
+      <li><a href="https://www.gsj.jp/data/chishitsunews/66_11_04.pdf">産総研 地質ニュース（地下水温）</a></li>
+      <li><a href="https://weather.time-j.net/climate/chart/fukuyama">福山の気候（平年値）</a>・<a href="https://tenki.jp/past/2025/02/25/amedas/7/37/67401.html">福山のアメダス 2025年2月25日</a></li>
+      <li><a href="https://www.pref.yamaguchi.lg.jp/uploaded/attachment/61551.pdf">山口県 ワサビの保温開始時期の影響</a>（畑わさびの事例。今回の計画にそのまま当てはまるかは未確認）</li>
+      <li><a href="https://www.jstage.jst.go.jp/article/seitaikogaku/33/1/33_1/_article/-char/en">生態工学 33(1)</a>：日よけ38〜46%で根が最大</li>
+      <li><a href="https://www.urakamizaidan.or.jp/research/jisseki/vol31/vol.31_urakami_10ikka.pdf">浦上財団研究報告書 Vol.31（静岡大学）</a>：井戸水だけでは養分不足</li>
+      <li><a href="https://literature.wolkersdorfer.info/literature/Determining%20the%20Effect%20of%20pH%20on%20Iron%20Oxidation%20Kinetics%20in%20Aquatic%20Environments%20Exploring%20a%20Fundamental%20Chemical%20Reaction%20To%20Grasp%20the%20Significant%20Ecosystem%20Implications%20of%20Iron%20Bioavailability.pdf">Kirby ほか 鉄が酸化する速さとpH</a></li>
+      <li><a href="https://jspp.org/hiroba/q_and_a/detail.html?id=2365">日本植物生理学会 植物Q&amp;A（水の鉄と生育障害）</a></li>
+      <li><a href="https://www.pref.shimane.lg.jp/industry/norin/gijutsu/nougyo_tech/byougaityuu/byougaityuu-index/wasabi/wa101.html">島根県 ワサビ軟腐病</a>・<a href="https://www.pref.akita.lg.jp/uploads/public/archive_0000002170_00/nanpu.pdf">秋田県 軟腐病</a></li>
+      <li><a href="https://www.maff.go.jp/j/nousin/kantai/attach/pdf/giahs_3_122-5.pdf">農林水産省 静岡水わさびの伝統栽培</a>・<a href="https://www.jppa.or.jp/archive/pdf/69_06_50.pdf">植物防疫 69(6)</a></li>
+      <li><a href="https://www.pref.shizuoka.jp/_res/projects/default_project/_page_/001/058/829/21-wasabiizuma.pdf">静岡県 ワサビ新品種「伊づま」</a>・<a href="https://www.itanse.shop/view/item/000000000215">六方沢わさび（苗の販売例）</a></li>
+      <li><a href="https://www.sangyo-rodo.metro.tokyo.lg.jp/documents/d/sangyo-rodo/120_030_110_010_030_wasabi-pdf">東京都 病害虫防除指針（ワサビ）</a>・<a href="https://panasonic.jp/p-db/contents/manualdl_02/1428358465990.pdf">井戸ポンプの仕様書（消費電力の参考）</a></li>
+    </ul>
+  </details>
+</section>
+
+<footer>Ver.3 ・ 2026年11月 ・ 測った値がわかったら、この計画を更新します</footer>
+</div>
+
+<script>
+(function(){
+  function load(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return{}}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  document.querySelectorAll('.checklist').forEach(function(list){
+    var key='wasabi-'+list.dataset.list, st=load(key);
+    list.querySelectorAll('input[type=checkbox]').forEach(function(cb){
+      cb.checked=!!st[cb.id];
+      cb.addEventListener('change',function(){st[cb.id]=cb.checked;save(key,st)});
+    });
+  });
+  document.querySelectorAll('[data-reset]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var name=btn.dataset.reset, list=document.querySelector('.checklist[data-list="'+name+'"]');
+      list.querySelectorAll('input').forEach(function(cb){cb.checked=false});
+      save('wasabi-'+name,{});
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
