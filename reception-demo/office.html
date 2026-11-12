@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>管理画面 プロトタイプ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #2b2f36; font-family: "Noto Sans JP", sans-serif; min-height: 100vh; }
+  .bar { position: sticky; top: 0; z-index: 10; background: #1c1f24; color: #cfd5de; padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 13px; }
+  .bar .label { opacity: .7; }
+  .bar button { background: #3a3f48; color: #fff; border: 0; padding: 7px 11px; border-radius: 8px; font: inherit; cursor: pointer; }
+  .bar b { color: #fff; }
+  .stage { padding: 16px; display: flex; justify-content: center; }
+  .scaler { transform-origin: top left; }
+
+  .frame {
+    --blue: #0000c8; --fam: #a61e4d; --c-visit: #0000c8; --c-med: #0f8a7e; --c-vend: #6b7280; --c-call: #e07b00; --c-err: #d23c3c; --ok: #1a8f5a;
+    --bg: #f6f7fb; --panel: #fff; --text: #1d2140; --sub: #63688a; --line: #e5e7f2;
+    width: 1280px; height: 800px; border-radius: 22px; overflow: hidden; position: relative;
+    box-shadow: 0 0 0 12px #111, 0 20px 60px rgba(0,0,0,.5);
+    background: var(--bg); color: var(--text); font-family: "Noto Sans JP", sans-serif; display: flex; flex-direction: column;
+  }
+  button { font-family: inherit; color: inherit; cursor: pointer; }
+  svg { display: block; }
+  input, select { font-family: inherit; }
+
+  /* ヘッダー */
+  .ahead { display: flex; align-items: center; gap: 16px; padding: 14px 28px; background: #fff; border-bottom: 1px solid var(--line); flex: none; }
+  .ahead .logo { height: 30px; }
+  .ahead .ttl { font-size: 18px; font-weight: 700; }
+  .ahead .ttl small { font-weight: 500; font-size: 14px; color: var(--sub); margin-left: 8px; }
+  .ahead .sp { flex: 1; }
+  .tbtn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 9px 16px; font-size: 15px; font-weight: 700; }
+  .tbtn svg { width: 18px; height: 18px; }
+  .tbtn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .tbtn.danger { background: var(--c-err); border-color: var(--c-err); color: #fff; }
+  .tbtn.off { color: var(--sub); }
+  .tbtn.sm { padding: 6px 12px; font-size: 14px; }
+
+  /* 待機中 */
+  .idle { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .st { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; color: var(--ok); background: #e6f6ee; border-radius: 999px; padding: 10px 22px; }
+  .st i { width: 12px; height: 12px; border-radius: 50%; background: #1fb26b; animation: pulse 2s ease-in-out infinite; }
+  .st.stop { color: var(--c-err); background: #fdeaea; }
+  .st.stop i { background: var(--c-err); animation: none; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(31,178,107,.25); } 50% { box-shadow: 0 0 0 9px rgba(31,178,107,.06); } }
+  .bigclock { font-size: 160px; font-weight: 700; letter-spacing: .02em; line-height: 1.1; font-variant-numeric: tabular-nums; margin-top: 18px; }
+  .bigdate { font-size: 28px; color: var(--sub); }
+  .counts { display: flex; gap: 14px; margin-top: 40px; }
+  .count { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 24px; display: flex; align-items: center; gap: 12px; font-size: 17px; color: var(--sub); }
+  .count .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .count b { font-size: 28px; color: var(--text); }
+  .idle-foot { display: flex; justify-content: center; gap: 14px; padding: 0 0 28px; }
+  .blackout { position: absolute; inset: 0; z-index: 25; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; color: #777; }
+  .blackout .hint { font-size: 15px; opacity: .0; transition: opacity .3s; }
+  .blackout.show .hint { opacity: 1; }
+  .blackout .tbtn { display: none; }
+  .blackout.show .tbtn { display: inline-flex; }
+
+  /* 画面いっぱいの通知 */
+  .full { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #fff; animation: fade .25s ease-out; }
+  @keyframes fade { from { opacity: 0; } }
+  .pill { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; background: rgba(255,255,255,.18); border-radius: 999px; padding: 8px 20px; }
+  .pill svg { width: 22px; height: 22px; }
+  .pill.ring { animation: blink2 1s ease-in-out infinite; }
+  @keyframes blink2 { 50% { opacity: .5; } }
+  .full .kind { font-size: 32px; font-weight: 700; margin-top: 28px; opacity: .95; }
+  .full .who { font-size: 72px; font-weight: 900; margin-top: 10px; }
+  .full .who small { font-size: 34px; font-weight: 700; margin-left: 10px; }
+  .full .meta { font-size: 26px; margin-top: 14px; opacity: .92; }
+  .full .meta b { font-size: 30px; }
+  .full .ok { margin-top: 44px; background: #fff; border: 0; border-radius: 22px; font-size: 34px; font-weight: 900; padding: 22px 120px; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+  .full .note { margin-top: 18px; font-size: 17px; opacity: .85; }
+  .full .timer { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: rgba(255,255,255,.2); }
+  .full .timer i { display: block; height: 100%; background: #fff; transition: width 1s linear; }
+  .full .tm { position: absolute; top: 28px; right: 36px; font-size: 22px; font-weight: 700; opacity: .9; }
+  .full .queue { position: absolute; top: 28px; left: 36px; font-size: 18px; font-weight: 700; background: rgba(255,255,255,.2); padding: 6px 14px; border-radius: 999px; }
+
+  .handling { position: absolute; inset: 0; z-index: 20; background: var(--bg); display: flex; flex-direction: column; }
+  .handling .band { display: flex; align-items: center; gap: 14px; color: #fff; padding: 18px 32px; font-size: 22px; font-weight: 700; }
+  .handling .band svg { width: 26px; height: 26px; }
+  .handling .body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .dcard { width: 820px; background: #fff; border-radius: 22px; border: 1px solid var(--line); padding: 10px 36px; }
+  .drow { display: flex; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .drow:last-child { border: 0; }
+  .drow .k { width: 180px; font-size: 18px; color: var(--sub); flex: none; }
+  .drow .v { font-size: 30px; font-weight: 700; }
+  .done-btn { margin-top: 34px; border: 0; color: #fff; border-radius: 18px; font-size: 28px; font-weight: 900; padding: 20px 90px; }
+
+  /* 通知の開始 */
+  .start { position: absolute; inset: 0; z-index: 30; background: rgba(246,247,251,.97); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 18px; }
+  .start h2 { font-size: 34px; }
+  .start p { font-size: 20px; color: var(--sub); line-height: 1.7; }
+  .start .tbtn { font-size: 24px; padding: 18px 48px; margin-top: 10px; }
+
+  /* 管理（左メニュー） */
+  .admin { flex: 1; min-height: 0; display: grid; grid-template-columns: 230px 1fr; }
+  .snav { background: #fff; border-right: 1px solid var(--line); padding: 18px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .ni { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; font-size: 16px; font-weight: 700; color: var(--sub); border: 0; background: transparent; text-align: left; }
+  .ni svg { width: 20px; height: 20px; flex: none; }
+  .ni.on { background: #ecedfc; color: var(--blue); }
+  .ni .lk { margin-left: auto; opacity: .5; }
+  .ni .lk svg { width: 14px; height: 14px; }
+  .snav .sep { height: 1px; background: var(--line); margin: 10px 4px; }
+  .snav .back { margin-top: auto; }
+  .amain { padding: 22px 28px; display: flex; flex-direction: column; gap: 16px; min-height: 0; overflow: auto; }
+  .amain h2 { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .amain h2 .sp { flex: 1; }
+  .lead { font-size: 15px; color: var(--sub); margin-top: -8px; }
+  .panel { background: #fff; border-radius: 14px; border: 1px solid var(--line); }
+  .filters { display: flex; gap: 12px; align-items: center; padding: 14px 18px; flex-wrap: wrap; }
+  .inp { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 16px; color: var(--text); background: var(--bg); min-width: 150px; }
+  .inp.wide { width: 100%; }
+  .chipsel { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chipsel button { font-size: 14px; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--sub); background: #fff; }
+  .chipsel button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .ml { margin-left: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 14px; color: var(--sub); font-weight: 700; padding: 12px 14px; border-bottom: 1px solid var(--line); background: #fafbfe; white-space: nowrap; }
+  td { font-size: 15px; padding: 11px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  td.t { font-variant-numeric: tabular-nums; color: var(--sub); }
+  .tag { display: inline-flex; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff; white-space: nowrap; }
+  tr.fam td { background: #fbf0f4; }
+  .empty { padding: 40px; text-align: center; color: var(--sub); }
+
+  /* 設定フォーム */
+  .form { padding: 6px 22px; }
+  .fr { display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .fr:last-child { border-bottom: 0; }
+  .fr .k { font-size: 16px; font-weight: 700; }
+  .fr .k small { display: block; font-size: 13px; color: var(--sub); font-weight: 400; margin-top: 2px; }
+  .fr .v { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 15px; color: var(--sub); }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .seg button { border: 0; background: #fff; padding: 9px 16px; font-size: 15px; font-weight: 700; color: var(--sub); border-right: 1px solid var(--line); }
+  .seg button:last-child { border-right: 0; }
+  .seg button.on { background: var(--blue); color: #fff; }
+  .num { width: 90px; text-align: right; }
+  .sect { font-size: 15px; font-weight: 700; color: var(--sub); margin: 6px 0 -6px; }
+  .savebar { display: flex; justify-content: flex-end; gap: 10px; }
+  .toast { position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%); background: #1d2140; color: #fff; padding: 12px 24px; border-radius: 12px; font-size: 16px; font-weight: 700; z-index: 40; animation: fade .2s; }
+
+  /* 一覧の編集 */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; min-height: 0; }
+  .lst .lh { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .li { display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .li:last-child { border-bottom: 0; }
+  .li .n { flex: 1; }
+  .ib { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 8px; background: #fff; display: grid; place-items: center; color: var(--sub); }
+  .ib svg { width: 16px; height: 16px; }
+  .ib.del { color: var(--c-err); }
+  .addrow { display: flex; gap: 10px; padding: 12px 18px; border-top: 1px solid var(--line); background: #fafbfe; border-radius: 0 0 14px 14px; }
+  .addrow .inp { flex: 1; min-width: 0; }
+  .src { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: #eef0f8; color: var(--sub); }
+
+  /* 起動・停止 */
+  .power { padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+  .power .big { font-size: 34px; font-weight: 700; }
+  .power p { font-size: 17px; color: var(--sub); line-height: 1.7; }
+
+  /* モーダル（パスワードなど） */
+  .modal { position: absolute; inset: 0; z-index: 35; background: rgba(20,24,60,.45); display: grid; place-items: center; }
+  .mbox { width: 520px; background: #fff; border-radius: 20px; padding: 30px 32px; box-shadow: 0 30px 80px rgba(0,0,0,.3); display: flex; flex-direction: column; gap: 16px; }
+  .mbox h3 { font-size: 22px; }
+  .mbox p { font-size: 15px; color: var(--sub); line-height: 1.7; }
+  .mbox .row { display: flex; gap: 10px; justify-content: flex-end; }
+  .mbox .err { color: var(--c-err); font-size: 14px; font-weight: 700; }
+
+  /* 端末登録 */
+  .reg { flex: 1; display: grid; place-items: center; }
+  .reg .mbox { box-shadow: 0 10px 40px rgba(0,0,0,.08); border: 1px solid var(--line); width: 600px; }
+  .reg img { height: 44px; align-self: flex-start; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span class="label">試す:</span>
+  <button onclick="incoming('visit')">面会者が来た（お知らせ）</button>
+  <button onclick="incoming('med')">クリニック/薬局が来た</button>
+  <button onclick="incoming('fam')">ご家族が来た（呼び出し）</button>
+  <button onclick="incoming('call')">スタッフ呼び出し</button>
+  <button onclick="incoming('nf')">入居者が見つからない</button>
+  <button onclick="incoming('err')">扉が開かなかった</button>
+  <button onclick="openUnregistered()">未登録の端末で開く</button>
+  <span>管理パスワード（ダミー） <b>0000</b></span>
+</div>
+<div class="stage"><div class="scaler" id="scaler"><div class="frame" id="frame"></div></div></div>
+
+<script>
+/* ================= アイコン ================= */
+const IC = {
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>',
+  belloff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 9.5-4.9M18 10c0 5 2 6 2 6H8"/><path d="M10 19a2 2 0 0 0 4 0"/><path d="M3 3l18 18"/></svg>',
+  visit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 13.8c2.9-.4 5.5 1.5 5.5 4.7"/></svg>',
+  log: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>',
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>',
+  list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>',
+  past: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>',
+  power: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.3 7.3a8 8 0 1 0 11.4 0"/></svg>',
+  adv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>',
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>',
+  dl: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
+  down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',
+  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+  door: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M6 21V4h9v17"/><path d="M15 6l4 1.5V21"/></svg>',
+};
+
+/* ================= ダミーデータ ================= */
+const KIND = { visit: ['面会', 'var(--c-visit)'], med: ['クリニック/薬局', 'var(--c-med)'], vend: ['業者', 'var(--c-vend)'], fam: ['ご家族', 'var(--fam)'], call: ['呼び出し', 'var(--c-call)'], nf: ['見つからない', 'var(--c-call)'], err: ['扉エラー', 'var(--c-err)'], staff: ['職員開錠', '#334155'] };
+const DB = {
+  log: [
+    ['11/12 14:05', 'visit', 'ヤマダイチロウ 様', '2名', '207号室 伊藤 正夫 様（子）', '開'],
+    ['11/12 13:48', 'nf', '入居者が見つかりませんでした', '—', '入力: タナカハナ', '—'],
+    ['11/12 13:10', 'vend', 'サンプルリネン', '—', '—', '開'],
+    ['11/12 11:32', 'visit', 'サトウミキ 様', '1名', '112号室 佐藤 健二 様（孫）', '開'],
+    ['11/12 11:20', 'call', 'スタッフ呼び出し', '—', '—', '—'],
+    ['11/12 11:05', 'fam', '鈴木 一郎 様のご家族', '—', 'ご関係: 子', '—'],
+    ['11/12 10:15', 'med', 'サンプル内科クリニック', '—', '—', '開'],
+    ['11/12 10:02', 'visit', 'ワタナベケイ 様', '3名', '230号室 渡辺 幸子 様（配偶者）', '開'],
+    ['11/11 16:40', 'visit', 'コバヤシユウ 様', '2名', '126号室 小林 茂 様（孫）', '開'],
+    ['11/11 15:02', 'staff', '職員が暗証番号で開錠', '—', '—', '開'],
+  ],
+  clinics: ['サンプル内科クリニック', 'みほん訪問診療所', 'ダミー歯科（訪問）', 'テスト訪問看護ステーション', 'れい薬局'],
+  vendors: ['サンプルリネン', 'ダミー給食サービス', 'テスト設備点検', 'みほんクリーニング'],
+  past: [
+    ['鈴木 一郎', 'スズキイチロウ', '108', '2026/10/03', '自動'],
+    ['鈴木 一朗', 'スズキイチロウ', '221', '2026/08/21', '自動'],
+    ['田中 道子', 'タナカミチコ', '115', '2025/12/10', '手入力'],
+  ],
+  devices: [
+    ['受付タブレット', '受付用', '2026/11/01', '今'],
+    ['事務所タブレット', '事務所用', '2026/11/01', '今'],
+    ['事務所パソコン（佐藤）', '事務所用', '2026/11/05', '11/11 18:02'],
+  ],
+  settings: { soundOn: true, noticeSound: 0, callSound: 0, noticeSec: 10, resetSec: 60, doneSec: 5, mapSec: 30, famDoor: false, staffNotify: false, keepYears: 2 },
+  running: true,
+};
+
+/* ================= 音（ブラウザで鳴らす合成音。本番も同じ方式にできる） ================= */
+let AC = null;
+const ac = () => (AC = AC || new (window.AudioContext || window.webkitAudioContext)());
+function tone(freq, start, dur, type = 'sine', vol = .25) {
+  const c = ac(), o = c.createOscillator(), g = c.createGain();
+  o.type = type; o.frequency.value = freq; o.connect(g); g.connect(c.destination);
+  const t = c.currentTime + start;
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .01); g.gain.exponentialRampToValueAtTime(.001, t + dur);
+  o.start(t); o.stop(t + dur + .05);
+}
+const NOTICE_SOUNDS = [
+  ['ピン', () => tone(1568, 0, .5)],
+  ['ポン', () => tone(880, 0, .6, 'sine', .3)],
+  ['ピンポン', () => { tone(1319, 0, .45); tone(1047, .28, .7); }],
+  ['チャイム', () => { tone(1047, 0, .5, 'triangle'); tone(1319, .18, .5, 'triangle'); tone(1568, .36, .8, 'triangle'); }],
+];
+const CALL_SOUNDS = [
+  ['ピリリ（電話風）', () => { for (let i = 0; i < 8; i++) tone(i % 2 ? 1320 : 1660, i * .06, .06, 'square', .12); for (let i = 0; i < 8; i++) tone(i % 2 ? 1320 : 1660, .7 + i * .06, .06, 'square', .12); }, 1600],
+  ['ピンポーン（繰り返し）', () => { tone(1319, 0, .5); tone(1047, .4, .9); }, 1800],
+  ['ピピピ（アラーム）', () => { [0, .18, .36].forEach(t => tone(2093, t, .12, 'square', .1)); }, 1000],
+  ['チャイム（繰り返し）', () => { tone(784, 0, .5, 'triangle'); tone(988, .2, .5, 'triangle'); tone(1175, .4, .5, 'triangle'); tone(1568, .6, .9, 'triangle'); }, 2000],
+];
+let ringTimer = null;
+function startRing() { stopRing(); if (!DB.settings.soundOn) return; const s = CALL_SOUNDS[DB.settings.callSound]; s[1](); ringTimer = setInterval(s[1], s[2]); }
+function stopRing() { clearInterval(ringTimer); ringTimer = null; }
+function pin() { if (DB.settings.soundOn) NOTICE_SOUNDS[DB.settings.noticeSound][1](); }
+
+/* ================= 状態 ================= */
+let blackShow = false, blackTimer = null;
+let view = 'start', tab = 'log', unlocked = false, queue = [], showing = null, handling = null, noticeTimer = null, modal = null, toast = '', logFilter = 'all', registered = true;
+const frame = document.getElementById('frame');
+const pad = n => String(n).padStart(2, '0');
+const now = () => { const d = new Date(); return { t: `${pad(d.getHours())}:${pad(d.getMinutes())}`, d: `${d.getMonth() + 1}月${d.getDate()}日（${'日月火水木金土'[d.getDay()]}）` }; };
+
+/* ================= 画面 ================= */
+const head = (sub, extra = '') => `<div class="ahead"><img class="logo" src="assets/logo-horizontal-nochar.webp" alt=""><div class="ttl">ドットホーム本千葉<small>${sub}</small></div><div class="sp"></div>${extra}
+  <button class="tbtn ${DB.settings.soundOn ? '' : 'off'}" data-act="toggleSound">${DB.settings.soundOn ? IC.bell + '通知音 ON' : IC.belloff + '通知音 OFF'}</button></div>`;
+const todayLog = () => DB.log.filter(r => r[0].startsWith('11/12'));
+
+function idleHTML() {
+  const cnt = k => todayLog().filter(r => r[1] === k).length;
+  return `${head('事務所モニター')}
+    <div class="idle">
+      <div class="st"><i></i>受付は正常に動いています（受信中）</div>
+      <div class="bigclock" data-time>${now().t}</div>
+      <div class="bigdate" data-date>${now().d}</div>
+      <div class="counts"><div class="count">今日の来館 <b>${todayLog().length}</b> 件</div>
+        ${['visit', 'med', 'vend', 'fam'].map(k => `<div class="count"><i class="dot" style="background:${KIND[k][1]}"></i>${KIND[k][0]} <b>${cnt(k)}</b></div>`).join('')}</div>
+    </div>
+    <div class="idle-foot"><button class="tbtn primary" style="font-size:18px;padding:14px 28px" data-act="openLog">${IC.log}ログを見る</button><button class="tbtn" style="font-size:18px;padding:14px 28px" data-act="openMenu" data-arg="settings">${IC.menu}管理メニュー</button>
+      <button class="tbtn danger" style="font-size:18px;padding:14px 28px" data-act="confirmPower">${IC.power}受付を止める</button></div>`;
+}
+
+const NAV = [['log', 'log', '来館ログ', false], ['settings', 'gear', '設定', true], ['lists', 'list', 'クリニック/薬局・業者', true], ['past', 'past', '過去の入居者', true], ['adv', 'adv', '詳しい設定', true]];
+function adminHTML() {
+  return `${head(NAV.find(n => n[0] === tab)[2])}
+    <div class="admin">
+      <div class="snav">${NAV.map(([id, ic, t, lock], i) => `<button class="ni ${tab === id ? 'on' : ''}" data-act="tab" data-arg="${id}">${IC[ic]}${t}${lock && !unlocked ? `<span class="lk">${IC.lock}</span>` : ''}</button>${i === 3 ? '<div class="sep"></div>' : ''}`).join('')}
+        <button class="ni back" data-act="toIdle">${IC.back}待機中の画面にもどる</button></div>
+      <div class="amain">${TABS[tab]()}</div>
+    </div>`;
+}
+
+const TABS = {
+  log: () => {
+    const rows = DB.log.filter(r => logFilter === 'all' || r[1] === logFilter || (logFilter === 'call' && r[1] === 'nf'));
+    return `<h2>来館ログ</h2>
+      <div class="panel filters"><input class="inp" value="2026/11/11 〜 2026/11/12"><input class="inp" placeholder="名前で検索">
+        <div class="chipsel">${[['all', 'すべて'], ['visit', '面会'], ['med', 'クリニック/薬局'], ['vend', '業者'], ['fam', 'ご家族'], ['call', '呼び出し']].map(([k, t]) => `<button class="${logFilter === k ? 'on' : ''}" data-act="logFilter" data-arg="${k}">${t}</button>`).join('')}</div>
+        <button class="tbtn primary ml" data-act="csv">${IC.dl}CSV出力 ${IC.lock}</button></div>
+      <div class="panel" style="overflow:hidden"><table>
+        <tr><th>日時</th><th>種別</th><th>来館者</th><th>人数</th><th>訪問先・内容</th><th>扉</th></tr>
+        ${rows.map(([t, k, a, n, d, door]) => `<tr class="${k === 'fam' ? 'fam' : ''}"><td class="t">${t}</td><td><span class="tag" style="background:${KIND[k][1]}">${KIND[k][0]}</span></td><td>${a}</td><td>${n}</td><td>${d}</td><td>${door}</td></tr>`).join('') || '<tr><td colspan="6" class="empty">該当する来館はありません</td></tr>'}
+      </table></div>
+      <div class="lead">※ 電話番号は画面に表示しません。CSV 出力（管理パスワードが必要）には含まれます。</div>`;
+  },
+  settings: () => {
+    const S = DB.settings;
+    const seg = (key, opts) => `<span class="seg">${opts.map(([v, t]) => `<button class="${S[key] === v ? 'on' : ''}" data-act="set" data-arg="${key}|${v}">${t}</button>`).join('')}</span>`;
+    const numIn = (key, unit) => `<input class="inp num" type="number" value="${S[key]}" data-num="${key}"> ${unit}`;
+    return `<h2>設定<span class="sp"></span><button class="tbtn primary" data-act="save">保存する</button></h2>
+      <div class="sect">通知音</div>
+      <div class="panel form">
+        <div class="fr"><div class="k">通知音<small>OFF にすると音は鳴らず、画面だけで知らせます</small></div><div class="v">${seg('soundOn', [[true, 'ON'], [false, 'OFF']])}</div></div>
+        <div class="fr"><div class="k">お知らせの音<small>面会者・クリニック/薬局・業者（1回だけ鳴る）</small></div><div class="v">${NOTICE_SOUNDS.map(([t], i) => `<span class="seg"><button class="${S.noticeSound === i ? 'on' : ''}" data-act="set" data-arg="noticeSound|${i}">${t}</button><button data-act="tryNotice" data-arg="${i}" title="試し聞き">▶</button></span>`).join('')}</div></div>
+        <div class="fr"><div class="k">呼び出しの音<small>ご家族・スタッフ呼び出しなど（確認まで鳴り続ける）</small></div><div class="v">${CALL_SOUNDS.map(([t], i) => `<span class="seg"><button class="${S.callSound === i ? 'on' : ''}" data-act="set" data-arg="callSound|${i}">${t}</button><button data-act="tryCall" data-arg="${i}" title="試し聞き">▶</button></span>`).join('')}</div></div>
+      </div>
+      <div class="sect">受付・通知の動き</div>
+      <div class="panel form">
+        <div class="fr"><div class="k">お知らせが消えるまで</div><div class="v">${numIn('noticeSec', '秒')}</div></div>
+        <div class="fr"><div class="k">受付画面が最初に戻るまで<small>入力の途中で放置されたとき</small></div><div class="v">${numIn('resetSec', '秒')}</div></div>
+        <div class="fr"><div class="k">完了画面の表示時間</div><div class="v">地図あり ${numIn('mapSec', '秒')}　地図なし ${numIn('doneSec', '秒')}</div></div>
+        <div class="fr"><div class="k">ご家族の来館時の扉</div><div class="v">${seg('famDoor', [[false, '開けない（職員が出迎える）'], [true, '開ける']])}</div></div>
+        <div class="fr"><div class="k">職員が暗証番号で開けたとき</div><div class="v">${seg('staffNotify', [[false, '通知しない'], [true, '通知する']])}</div></div>
+        <div class="fr"><div class="k">来館ログの保存期間<small>過ぎたものは自動で削除</small></div><div class="v">${numIn('keepYears', '年')}</div></div>
+      </div>
+      <div class="sect">パスワード</div>
+      <div class="panel form">
+        <div class="fr"><div class="k">管理パスワード<small>管理メニュー・CSV 出力・端末登録</small></div><div class="v"><button class="tbtn sm" data-act="changePw" data-arg="admin">${IC.edit}変更する</button></div></div>
+        <div class="fr"><div class="k">扉用の暗証番号<small>受付画面の「スタッフ用」</small></div><div class="v"><button class="tbtn sm" data-act="changePw" data-arg="door">${IC.edit}変更する</button></div></div>
+      </div>`;
+  },
+  lists: () => {
+    const lst = (key, title, ph) => `<div class="panel lst"><div class="lh">${title}<span style="font-size:14px;color:var(--sub);font-weight:500">受付画面にこの順で並びます</span></div>
+      ${DB[key].map((n, i) => `<div class="li"><span class="n">${n}</span><button class="ib" data-act="move" data-arg="${key}|${i}|-1">${IC.up}</button><button class="ib" data-act="move" data-arg="${key}|${i}|1">${IC.down}</button><button class="ib del" data-act="remove" data-arg="${key}|${i}">${IC.trash}</button></div>`).join('')}
+      <div class="addrow"><input class="inp" placeholder="${ph}" data-add="${key}"><button class="tbtn primary sm" data-act="add" data-arg="${key}">追加</button></div></div>`;
+    return `<h2>クリニック/薬局・業者</h2><div class="lead">受付画面の「クリニック/薬局の方」「業者の方」に並べるボタンです。</div>
+      <div class="two">${lst('clinics', 'クリニック/薬局', 'クリニック・薬局名を入力')}${lst('vendors', 'よく来る業者', '業者名を入力')}</div>`;
+  },
+  past: () => `<h2>過去の入居者<span class="sp"></span><button class="tbtn primary" data-act="addPast">＋ 手入力で追加</button></h2>
+      <div class="lead">入居者一覧からいなくなった方は自動でここに追加されます。アプリを使い始める前に退去された方は手入力で追加してください。<br>受付画面の「以前ご入居されていた方のご家族」で、ここに載っている方を探せます。</div>
+      <div class="panel filters"><input class="inp" placeholder="名前・読みで検索" style="min-width:300px"></div>
+      <div class="panel" style="overflow:hidden"><table>
+        <tr><th>お名前</th><th>読み（カタカナ）</th><th>居室</th><th>一覧から外れた日</th><th>登録</th><th></th></tr>
+        ${DB.past.map(([k, kana, room, d, src], i) => `<tr><td><b>${k}</b></td><td>${kana}</td><td>${room}</td><td class="t">${d}</td><td><span class="src">${src}</span></td><td style="text-align:right"><button class="ib" style="display:inline-grid" data-act="toast" data-arg="（見本）修正画面が開きます">${IC.edit}</button> <button class="ib del" style="display:inline-grid" data-act="removePast" data-arg="${i}">${IC.trash}</button></td></tr>`).join('')}
+      </table></div>`,
+  power: () => `<h2>起動・停止</h2>
+      <div class="panel power">
+        ${DB.running ? '<div class="st"><i></i>受付中</div>' : '<div class="st stop"><i></i>停止中</div>'}
+        <div class="big">${DB.running ? '受付アプリは動いています' : '受付アプリは停止しています'}</div>
+        <p>${DB.running ? '停止すると、受付画面は「ネットワークエラー 事務所にお声かけください」と表示し、受付できなくなります。<br>事務所への通知も止まります。' : '起動すると、受付画面がすぐに使えるようになります。'}</p>
+        ${DB.running ? `<button class="tbtn danger" style="font-size:20px;padding:14px 36px" data-act="confirmPower">${IC.power}停止する</button>` : `<button class="tbtn primary" style="font-size:20px;padding:14px 36px" data-act="confirmPower">${IC.power}起動する</button>`}
+      </div>`,
+  adv: () => `<h2>詳しい設定<span class="sp"></span><button class="tbtn primary" data-act="save">保存する</button></h2>
+      <div class="lead">めったに変更しない設定です。わからない場合は触らないでください。</div>
+      <div class="sect">入居者一覧（読み込み元のスプレッドシート）</div>
+      <div class="panel form">
+        <div class="fr"><div class="k">スプレッドシートの URL</div><div class="v" style="flex:1"><input class="inp wide" value="https://docs.google.com/spreadsheets/d/xxxxxxxx/edit"></div></div>
+        <div class="fr"><div class="k">シート名</div><div class="v"><input class="inp" value="入居者一覧"></div></div>
+        <div class="fr"><div class="k">列<small>A=1, B=2 … の列番号</small></div><div class="v">居室番号 <input class="inp num" value="1"> 漢字 <input class="inp num" value="2"> カタカナ <input class="inp num" value="3"> データ開始行 <input class="inp num" value="2"></div></div>
+        <div class="fr"><div class="k">読み込み</div><div class="v">30分ごとに自動で読み込みます</div></div>
+      </div>
+      <div class="sect">地図（フロアマップのスプレッドシート）</div>
+      <div class="panel form">
+        <div class="fr"><div class="k">スプレッドシートの URL</div><div class="v" style="flex:1"><input class="inp wide" value="https://docs.google.com/spreadsheets/d/yyyyyyyy/edit"></div></div>
+        <div class="fr"><div class="k">シート名</div><div class="v">1階 <input class="inp" value="1F"> 2階 <input class="inp" value="2F"></div></div>
+        <div class="fr"><div class="k">現在地のセル<small>1階のシートで、受付タブレットの場所</small></div><div class="v"><input class="inp num" value="AA9" style="width:110px;text-align:left"></div></div>
+      </div>
+      <div class="sect">登録済みの端末</div>
+      <div class="panel" style="overflow:hidden"><table>
+        <tr><th>端末の名前</th><th>種類</th><th>登録日</th><th>最後に使った日時</th><th></th></tr>
+        ${DB.devices.map(([n, t, d, l], i) => `<tr><td><b>${n}</b></td><td>${t}</td><td class="t">${d}</td><td class="t">${l}</td><td style="text-align:right"><button class="tbtn sm" data-act="unregister" data-arg="${i}">登録を解除</button></td></tr>`).join('')}
+      </table></div>
+      <div class="lead">新しい端末を登録するときは、その端末でこのアプリを開いてください（登録画面が出ます）。</div>`,
+};
+
+const NOTICE_TEXT = {
+  visit: ['ご面会の方がお見えです', 'ヤマダイチロウ 様<small>2名</small>', 'ご面会先 <b>207号室 伊藤 正夫 様</b>（子）'],
+  med: ['クリニック/薬局の方がお見えです', 'サンプル内科クリニック', ''],
+  vend: ['業者の方がお見えです', 'サンプルリネン', ''],
+  staff: ['職員が扉を開けました', '暗証番号で開錠', ''],
+};
+const CALL_TEXT = {
+  fam: ['以前ご入居されていた方のご家族がお見えです', '鈴木 一郎 様<small>のご家族</small>', 'ご関係: 子', [['種別', '以前ご入居されていた方のご家族'], ['故人様', '鈴木 一郎 様'], ['ご関係', '子']]],
+  call: ['受付でスタッフが呼ばれています', 'スタッフ呼び出し', '受付にお越しください', [['種別', 'スタッフ呼び出し']]],
+  nf: ['入居者が見つからず、スタッフを呼んでいます', 'スタッフ呼び出し', '入力された読み: <b>タナカハナ</b>', [['種別', '入居者が見つからない'], ['入力された読み', 'タナカハナ']]],
+  err: ['扉が開きませんでした', '扉エラー', '受付: ヤマダイチロウ 様（面会）', [['種別', '扉が開かなかった'], ['受付', 'ヤマダイチロウ 様（面会）'], ['対応', '扉を手で開けてください']]],
+};
+
+function overlayHTML() {
+  if (handling) {
+    const c = CALL_TEXT[handling.kind];
+    return `<div class="handling"><div class="band" style="background:${KIND[handling.kind][1]}">${IC.check}確認しました（音を止めました）</div>
+      <div class="body"><div class="dcard">${c[3].map(([k, v], i) => `<div class="drow"><div class="k">${k}</div><div class="v" ${i === 0 ? `style="color:${KIND[handling.kind][1]}"` : ''}>${v}</div></div>`).join('')}<div class="drow"><div class="k">受付時刻</div><div class="v">${handling.time}</div></div></div>
+      <button class="done-btn" style="background:${KIND[handling.kind][1]}" data-act="done">対応完了</button></div></div>`;
+  }
+  if (showing) {
+    const q = queue.length ? `<div class="queue">ほかに ${queue.length} 件あります</div>` : '';
+    if (CALL_TEXT[showing.kind]) {
+      const c = CALL_TEXT[showing.kind];
+      return `<div class="full" style="background:${KIND[showing.kind][1]}">${q}<div class="tm">${showing.time}</div>
+        <div class="pill ${DB.settings.soundOn ? 'ring' : ''}">${IC.bell}${DB.settings.soundOn ? '呼び出し音が鳴っています' : '呼び出し（通知音 OFF）'}</div>
+        <div class="kind">${c[0]}</div><div class="who">${c[1]}</div><div class="meta">${c[2]}</div>
+        <button class="ok" style="color:${KIND[showing.kind][1]}" data-act="ack">確認</button><div class="note">確認を押すと音が止まります</div></div>`;
+    }
+    const n = NOTICE_TEXT[showing.kind];
+    return `<div class="full" data-act="dismiss" style="background:${KIND[showing.kind][1]}">${q}<div class="tm">${showing.time}</div>
+      <div class="pill">${IC.visit}お知らせ</div><div class="kind">${n[0]}</div><div class="who">${n[1]}</div>${n[2] ? `<div class="meta">${n[2]}</div>` : ''}
+      <div class="note" style="margin-top:40px"><span data-left>${showing.left}</span>秒後に自動で消えます（押すとすぐ消えます）</div>
+      <div class="timer"><i style="width:${showing.left / DB.settings.noticeSec * 100}%"></i></div></div>`;
+  }
+  return '';
+}
+
+function modalHTML() {
+  if (!modal) return '';
+  if (modal.type === 'pw') return `<div class="modal"><div class="mbox"><h3>${IC.lock.replace('<svg', '<svg style="display:inline;width:20px;vertical-align:-3px;margin-right:6px"')}管理パスワード</h3><p>${modal.why}</p>
+    <input class="inp" type="password" placeholder="管理パスワード" id="pwIn" autofocus>${modal.err ? '<div class="err">パスワードが違います</div>' : ''}
+    <div class="row"><button class="tbtn" data-act="closeModal">やめる</button><button class="tbtn primary" data-act="checkPw">OK</button></div></div></div>`;
+  if (modal.type === 'confirm') return `<div class="modal"><div class="mbox"><h3>${modal.title}</h3><p>${modal.text}</p>
+    <div class="row"><button class="tbtn" data-act="closeModal">やめる</button><button class="tbtn ${modal.danger ? 'danger' : 'primary'}" data-act="confirmOk">${modal.ok}</button></div></div></div>`;
+  if (modal.type === 'change') return `<div class="modal"><div class="mbox"><h3>${modal.label}を変更</h3>
+    <input class="inp" type="password" placeholder="新しい${modal.label}"><input class="inp" type="password" placeholder="もう一度入力">
+    <div class="row"><button class="tbtn" data-act="closeModal">やめる</button><button class="tbtn primary" data-act="changeDone">変更する</button></div></div></div>`;
+  if (modal.type === 'addPast') return `<div class="modal"><div class="mbox"><h3>過去の入居者を手入力で追加</h3>
+    <input class="inp" placeholder="お名前（漢字）例: 山田 太郎"><input class="inp" placeholder="読み（カタカナ・スペースなし）例: ヤマダタロウ"><input class="inp" placeholder="居室番号（わかれば）">
+    <div class="row"><button class="tbtn" data-act="closeModal">やめる</button><button class="tbtn primary" data-act="addPastDone">追加する</button></div></div></div>`;
+  return '';
+}
+
+function regHTML() {
+  return `<div class="reg"><div class="mbox"><img src="assets/logo-horizontal-nochar.webp" alt=""><h3>この端末は登録されていません</h3>
+    <p>受付アプリを使うには、この端末を登録してください。登録は最初の1回だけです。</p>
+    <div><div style="font-size:14px;font-weight:700;margin-bottom:6px">端末の種類</div><span class="seg"><button class="on">事務所用（通知を受ける）</button><button>受付用（来館者が使う）</button></span></div>
+    <input class="inp" placeholder="端末の名前（例: 事務所タブレット）"><input class="inp" type="password" placeholder="管理パスワード">
+    <div class="row"><button class="tbtn primary" data-act="regDone">登録する</button></div></div></div>`;
+}
+
+function startHTML() {
+  return `<div class="start"><h2>事務所モニター</h2><p>来館の通知を受け取るために、下のボタンを押してください。<br>（ブラウザの決まりで、一度押さないと音を鳴らせません）</p>
+    <button class="tbtn primary" data-act="startNotify">${IC.bell}通知を開始</button></div>`;
+}
+
+/* ================= 描画 ================= */
+function render() {
+  let html;
+  if (!registered) html = `${head('端末登録')}${regHTML()}`;
+  else if (!DB.running) html = `<div class="blackout ${blackShow ? 'show' : ''}" data-act="wake"><div class="hint">受付を停止しています（受付画面も真っ暗です）</div><button class="tbtn primary" style="font-size:22px;padding:16px 40px;background:var(--ok);border-color:var(--ok)" data-act="resume">${IC.power}受付を再開する</button></div>`;
+  else html = (view === 'admin' ? adminHTML() : idleHTML()) + overlayHTML() + (view === 'start' ? startHTML() : '');
+  frame.innerHTML = html + modalHTML() + (toast ? `<div class="toast">${toast}</div>` : '');
+  const pw = document.getElementById('pwIn'); if (pw) { pw.focus(); pw.onkeydown = e => { if (e.key === 'Enter') ACT.checkPw(); }; }
+}
+function showToast(t) { toast = t; render(); setTimeout(() => { toast = ''; render(); }, 1800); }
+
+/* ================= 通知の流れ ================= */
+function incoming(kind) {
+  if (!DB.running) return;  // 停止中は受付も通知も止まっている
+  if (!registered || view === 'start') { ACT.startNotify(); }
+  if (kind === 'staff' && !DB.settings.staffNotify) return showToast('（職員開錠は「通知しない」設定です）');
+  const item = { kind, time: now().t };
+  if (showing || handling) { queue.push(item); render(); } else { showItem(item); }
+}
+function showItem(item) {
+  showing = item;
+  if (CALL_TEXT[item.kind]) { startRing(); render(); return; }
+  pin(); showing.left = DB.settings.noticeSec; render();
+  clearInterval(noticeTimer);
+  noticeTimer = setInterval(() => {
+    showing.left--;
+    if (showing.left <= 0) { clearInterval(noticeTimer); next(); }
+    else { const l = frame.querySelector('[data-left]'); if (l) l.textContent = showing.left; const b = frame.querySelector('.timer i'); if (b) b.style.width = showing.left / DB.settings.noticeSec * 100 + '%'; }
+  }, 1000);
+}
+function next() { showing = null; handling = null; stopRing(); clearInterval(noticeTimer); if (queue.length) showItem(queue.shift()); else render(); }
+
+/* ================= 操作 ================= */
+let afterPw = null;
+function needPw(why, fn) { if (unlocked) return fn(); afterPw = fn; modal = { type: 'pw', why }; render(); }
+const ACT = {
+  startNotify: () => { ac().resume(); view = 'idle'; render(); },
+  toggleSound: () => { DB.settings.soundOn = !DB.settings.soundOn; if (!DB.settings.soundOn) stopRing(); else if (showing && CALL_TEXT[showing.kind]) startRing(); render(); },
+  openLog: () => { view = 'admin'; tab = 'log'; render(); },
+  openMenu: () => needPw('管理メニューを開くには管理パスワードを入れてください。', () => { view = 'admin'; tab = 'settings'; render(); }),
+  toIdle: () => { view = 'idle'; unlocked = false; render(); },
+  tab: t => { const n = NAV.find(x => x[0] === t); if (n[3]) needPw(`「${n[2]}」を開くには管理パスワードを入れてください。`, () => { tab = t; render(); }); else { tab = t; render(); } },
+  checkPw: () => { const v = document.getElementById('pwIn').value; if (v === '0000') { unlocked = true; modal = null; const f = afterPw; afterPw = null; f(); } else { modal.err = true; render(); } },
+  closeModal: () => { modal = null; afterPw = null; render(); },
+  logFilter: k => { logFilter = k; render(); },
+  csv: () => { const f = () => showToast('CSV をダウンロードしました（見本）'); if (unlocked) f(); else { afterPw = f; modal = { type: 'pw', why: 'CSV には電話番号が含まれます。管理パスワードを入れてください。' }; render(); } },
+  ack: () => { stopRing(); handling = showing; showing = null; render(); },
+  done: () => { handling = null; next(); },
+  set: a => { const [k, v] = a.split('|'); DB.settings[k] = v === 'true' ? true : v === 'false' ? false : +v; render(); },
+  tryNotice: i => NOTICE_SOUNDS[+i][1](),
+  tryCall: i => { const s = CALL_SOUNDS[+i]; s[1](); setTimeout(s[1], s[2]); },
+  save: () => { frame.querySelectorAll('[data-num]').forEach(el => DB.settings[el.dataset.num] = +el.value); showToast('保存しました'); },
+  changePw: k => { modal = { type: 'change', label: k === 'admin' ? '管理パスワード' : '扉用の暗証番号' }; render(); },
+  changeDone: () => { modal = null; showToast('変更しました'); },
+  move: a => { const [k, i, d] = a.split('|'); const L = DB[k], j = +i + +d; if (j < 0 || j >= L.length) return; [L[+i], L[j]] = [L[j], L[+i]]; render(); },
+  remove: a => { const [k, i] = a.split('|'); modal = { type: 'confirm', title: '削除しますか？', text: `「${DB[k][+i]}」を一覧から削除します。`, ok: '削除する', danger: true, fn: () => { DB[k].splice(+i, 1); } }; render(); },
+  add: k => { const el = frame.querySelector(`[data-add="${k}"]`); if (el.value.trim()) { DB[k].push(el.value.trim()); render(); } },
+  addPast: () => { modal = { type: 'addPast' }; render(); },
+  addPastDone: () => { modal = null; DB.past.push(['山田 太郎', 'ヤマダタロウ', '—', '—', '手入力']); showToast('追加しました（見本）'); },
+  removePast: i => { modal = { type: 'confirm', title: '削除しますか？', text: `「${DB.past[+i][0]} 様」を過去の入居者から削除します。受付画面で探せなくなります。`, ok: '削除する', danger: true, fn: () => DB.past.splice(+i, 1) }; render(); },
+  confirmPower: () => { modal = { type: 'confirm', title: '受付を止めますか？', text: '受付画面とこの画面が真っ暗になり、受付と通知が止まります。<br>再開するときは、この画面に触れて「受付を再開する」を押してください。', ok: '止める', danger: true, fn: () => { DB.running = false; view = 'idle'; } }; render(); },
+  wake: () => { blackShow = true; render(); clearTimeout(blackTimer); blackTimer = setTimeout(() => { blackShow = false; render(); }, 8000); },
+  resume: () => { DB.running = true; blackShow = false; render(); showToast('受付を再開しました'); },
+  confirmOk: () => { const f = modal.fn; modal = null; f(); render(); },
+  unregister: i => { modal = { type: 'confirm', title: '登録を解除しますか？', text: `「${DB.devices[+i][0]}」は、もう一度登録するまで使えなくなります。紛失・故障したときに使います。`, ok: '解除する', danger: true, fn: () => DB.devices.splice(+i, 1) }; render(); },
+  regDone: () => { registered = true; view = 'start'; render(); },
+  toast: t => showToast(t),
+  dismiss: () => next(),
+};
+frame.addEventListener('click', e => { const el = e.target.closest('[data-act]'); if (!el) return; ACT[el.dataset.act](el.dataset.arg); });
+function openUnregistered() { stopRing(); showing = null; handling = null; queue = []; modal = null; registered = false; render(); }
+
+setInterval(() => { frame.querySelectorAll('[data-time]').forEach(el => el.textContent = now().t); frame.querySelectorAll('[data-date]').forEach(el => el.textContent = now().d); }, 10000);
+function fit() {
+  const sc = document.getElementById('scaler');
+  const top = sc.getBoundingClientRect().top + window.scrollY;
+  const s = Math.max(.3, Math.min((window.innerWidth - 60) / 1280, (window.innerHeight - top - 24) / 800, 1));
+  sc.style.transform = `scale(${s})`; sc.style.width = 1280 * s + 'px'; sc.style.height = 800 * s + 'px';
+}
+window.addEventListener('resize', fit);
+
+// 確認用: #idle / #settings / #lists / #past / #power / #adv / #log / #reg / #call
+const h = location.hash.slice(1);
+if (h === 'reg') registered = false;
+else if (h === 'idle') view = 'idle';
+else if (TABS[h]) { view = 'admin'; tab = h; unlocked = true; }
+else if (h === 'call') { view = 'idle'; showing = { kind: 'fam', time: '14:06' }; }
+render(); fit();
+</script>
+</body>
+</html>

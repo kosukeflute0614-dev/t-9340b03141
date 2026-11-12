@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>受付アプリ デモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --blue: #0000c8; --bg: #f4f5fd; --text: #1d2140; --sub: #5f6480; --line: #e3e5f3; --card: #fff; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #12141f; --text: #eceef8; --sub: #a3a8c3; --line: #2a2f45; --card: #1b1e2c; }
+  }
+  :root[data-theme="dark"] { --bg: #12141f; --text: #eceef8; --sub: #a3a8c3; --line: #2a2f45; --card: #1b1e2c; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Noto Sans JP", sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  main { max-width: 880px; margin: 0 auto; padding: 40px 16px 64px; }
+  header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+  header img { height: 40px; background: #fff; border-radius: 10px; padding: 6px 10px; }
+  h1 { font-size: 26px; }
+  .lead { color: var(--sub); margin-bottom: 28px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  a.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; text-decoration: none; color: inherit; transition: transform .1s, border-color .1s; }
+  a.card:hover { transform: translateY(-2px); border-color: var(--blue); }
+  .card h2 { font-size: 20px; color: var(--blue); margin-bottom: 6px; }
+  :root[data-theme="dark"] .card h2 { color: #8f8fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card h2 { color: #8f8fff; } }
+  .card p { font-size: 15px; color: var(--sub); }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; margin-bottom: 16px; }
+  section h3 { font-size: 17px; margin-bottom: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  td { padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { white-space: nowrap; color: var(--sub); padding-right: 16px; }
+  tr:last-child td { border-bottom: 0; }
+  b { font-weight: 700; }
+  ul { padding-left: 20px; font-size: 15px; }
+  .note { font-size: 13px; color: var(--sub); margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <header><img src="assets/logo-horizontal-nochar.webp" alt="Dotline Social 3.0"><h1>受付アプリ デモ</h1></header>
+  <p class="lead">施設の受付をタブレットで行い、扉を自動で開け、事務所に来館を知らせるアプリの操作デモです。<br>画面はすべてダミーデータで動きます（実際の扉・データにはつながっていません）。横向きのタブレットかパソコンでの表示を想定しています。</p>
+
+  <div class="cards">
+    <a class="card" href="reception.html"><h2>受付画面 ›</h2><p>来館者がタブレットで操作する画面。面会・クリニック/薬局・業者・ご家族・スタッフ呼び出しの流れを試せます。</p></a>
+    <a class="card" href="office.html"><h2>事務所の画面 ›</h2><p>職員が見る画面。来館のお知らせ・呼び出し、来館ログ、設定などを試せます。</p></a>
+  </div>
+
+  <section>
+    <h3>受付画面で試せるダミーデータ</h3>
+    <table>
+      <tr><td>入居者が2人見つかる</td><td>「ご面会の方」→ <b>ヤマダハナコ</b></td></tr>
+      <tr><td>入居者が1人見つかる</td><td><b>サトウケンジ</b>（1階）／ <b>イトウマサオ</b>（2階）</td></tr>
+      <tr><td>見つからない</td><td>上記以外の名前</td></tr>
+      <tr><td>以前の入居者</td><td>「以前ご入居されていた方のご家族」→ <b>スズキイチロウ</b>（2人）／ <b>タナカミチコ</b></td></tr>
+      <tr><td>スタッフ用の暗証番号</td><td><b>1234</b></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h3>事務所の画面の試し方</h3>
+    <ul>
+      <li>最初に「通知を開始」を押してください（音が鳴ります）。</li>
+      <li>上の黒いバーのボタンで、来館が届いたときの動きを試せます（お知らせは10秒で消える／呼び出しは「確認」まで鳴り続ける）。</li>
+      <li>管理パスワード（ダミー）は <b>0000</b> です。</li>
+    </ul>
+  </section>
+
+  <p class="note">※ これは設計確認用のデモです。本番は Google Apps Script とスプレッドシートで動き、扉は SwitchBot で開けます。</p>
+</main>
+</body>
+</html>
